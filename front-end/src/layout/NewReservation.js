@@ -16,23 +16,47 @@ function NewReservation() {
   const [formData, setFormData] = useState({ ...initialFormState });
 
   const handleChange = ({ target }) => {
+    let value = target.value;
+    if (target.name === "mobile_number") {
+      value = formatPhoneNumber(value);
+    }
+    if (target.name === "reservation_time") {
+      value = value + ":00";
+    }
     setFormData({
       ...formData,
-      [target.name]: target.value,
+      [target.name]: value,
     });
   };
 
   const handleCancel = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     history.goBack();
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (isNull()) {
+      alert("Please fill in all required fields.");
+      return;
+    }
     //create reservation from api
-    console.log(formData)
+    console.log(formData);
     setFormData({ ...initialFormState });
-    history.push("/")
+    history.push("/");
+  };
+
+  const formattedPhoneNumber = formatPhoneNumber(formData.mobile_number);
+
+  function formatPhoneNumber(input) {
+    const numericInput = input.replace(/\D/g, "");
+    return numericInput.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+  }
+
+  const isNull = () => {
+    return Object.values(formData).some(
+      (value) => value === null || value === ""
+    );
   };
 
   return (
@@ -67,8 +91,9 @@ function NewReservation() {
           id="mobile_number"
           type="tel"
           name="mobile_number"
+          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
           onChange={handleChange}
-          value={formData.mobile_number}
+          value={formattedPhoneNumber}
           required
         />
       </label>
