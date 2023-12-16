@@ -22,7 +22,8 @@ function NewReservation() {
     });
   };
 
-  const handleCancel = () => {
+  const handleCancel = (event) => {
+    event.preventDefault()
     history.goBack();
   };
 
@@ -31,6 +32,7 @@ function NewReservation() {
     //create reservation from api
     console.log(formData)
     setFormData({ ...initialFormState });
+    history.push("/")
   };
 
   return (
