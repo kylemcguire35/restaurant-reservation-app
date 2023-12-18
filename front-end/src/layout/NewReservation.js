@@ -18,7 +18,7 @@ function NewReservation() {
 
   const handleChange = ({ target }) => {
     let value = target.value;
-    if (target.name === 'people') value = parseInt(target.value)
+    if (target.name === "people") value = parseInt(target.value);
     setFormData({
       ...formData,
       [target.name]: value,
@@ -36,8 +36,8 @@ function NewReservation() {
       alert("Please fill in all required fields.");
       return;
     }
-    console.log(formData)
-    createReservation(formData)
+    console.log(formData);
+    createReservation(formData);
     setFormData({ ...initialFormState });
     history.push("/");
   };
