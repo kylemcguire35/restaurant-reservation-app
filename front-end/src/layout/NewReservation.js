@@ -18,12 +18,7 @@ function NewReservation() {
 
   const handleChange = ({ target }) => {
     let value = target.value;
-    if (target.name === "mobile_number") {
-      value = formatPhoneNumber(value);
-    }
-    if (target.name === "reservation_time") {
-      value = value + ":00";
-    }
+    if (target.name === 'people') value = parseInt(target.value)
     setFormData({
       ...formData,
       [target.name]: value,
@@ -41,6 +36,7 @@ function NewReservation() {
       alert("Please fill in all required fields.");
       return;
     }
+    console.log(formData)
     createReservation(formData)
     setFormData({ ...initialFormState });
     history.push("/");
