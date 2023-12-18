@@ -73,7 +73,7 @@ function isValidReservationPeople(req, res, next) {
   const { people } = req.body.data;
 
   // Check if people is a number and greater than 0
-  if (typeof people !== string) {
+  if (typeof people !== 'string') {
     return next();
   }
 
@@ -123,6 +123,7 @@ module.exports = {
     bodyDataHas("people"),
     isValidReservationDate,
     isValidReservationTime,
+    isValidReservationPeople,
     asyncErrorBoundary(create),
   ],
 };
