@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { createReservation } from "../utils/api";
 
 function NewReservation() {
   const history = useHistory();
@@ -40,8 +41,7 @@ function NewReservation() {
       alert("Please fill in all required fields.");
       return;
     }
-    //create reservation from api
-    console.log(formData);
+    createReservation(formData)
     setFormData({ ...initialFormState });
     history.push("/");
   };
