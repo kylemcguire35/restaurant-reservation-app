@@ -31,6 +31,7 @@ describe("US-01 - Create and list reservations - E2E", () => {
     await browser.close();
   });
 
+  //IMPORTANT: Must change reservation_date to today for this test to pass
   describe("/reservations/new page", () => {
     test("filling and submitting form creates a new reservation and then displays the dashboard for the reservation date", async () => {
       const lastName = Date.now().toString(10);
@@ -38,8 +39,8 @@ describe("US-01 - Create and list reservations - E2E", () => {
       await page.type("input[name=first_name]", "James");
       await page.type("input[name=last_name]", lastName);
       await page.type("input[name=mobile_number]", "800-555-1212");
-      await page.type("input[name=reservation_date]", "12-17-2023");
-      await page.type("input[name=reservation_time]", "13:30");
+      await page.type("input[name=reservation_date]", "12182023");
+      await page.type("input[name=reservation_time]", "1330");
       await page.type("input[name=people]", "2");
 
       await page.screenshot({
