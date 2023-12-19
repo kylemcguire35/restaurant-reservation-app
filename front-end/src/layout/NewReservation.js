@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { createReservation } from "../utils/api";
+import ErrorAlert from "./ErrorAlert";
 
 function NewReservation() {
   const history = useHistory();
+
+  const [error, setError] = useState(null);
 
   const initialFormState = {
     first_name: "",
@@ -33,12 +36,28 @@ function NewReservation() {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (isNull()) {
-      alert("Please fill in all required fields.");
+      setError({
+        message: "Please fill in all required fields.",
+      });
+      return;
+    }
+    if (isTuesday(formData.reservation_date)) {
+      setError({
+        message: "Sorry, we are closed on Tuesday. Please enter another date.",
+      });
+      return;
+    }
+    if (isPastDate(formData.reservation_date)) {
+      setError({
+        message:
+          "Sorry, that date has already passed. Please enter another date.",
+      });
       return;
     }
     console.log(formData);
     createReservation(formData);
     setFormData({ ...initialFormState });
+    setError(null);
     history.push("/");
   };
 
@@ -55,8 +74,23 @@ function NewReservation() {
     );
   };
 
+  function isTuesday(dateString) {
+    const dateObj = new Date(dateString);
+    const day = dateObj.getDay();
+    return day === 1;
+  }
+
+  function isPastDate(dateString) {
+    const dateObj = new Date(dateString + 'T00:00:00');
+    const today = new Date();
+    // Compare the dates, ignoring the time component
+    today.setHours(0, 0, 0, 0);
+    return dateObj < today;
+  }
+
   return (
     <form>
+      <ErrorAlert error={error} />
       <label>
         First Name
         <input

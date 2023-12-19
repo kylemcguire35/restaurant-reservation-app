@@ -22,11 +22,10 @@ function isTuesday(dateString) {
 }
 
 function isPastDate(dateString) {
-  const dateObj = new Date(dateString);
+  const dateObj = new Date(dateString + 'T00:00:00');
   const today = new Date();
   // Compare the dates, ignoring the time component
-  dateObj.setUTCHours(0, 0, 0, 0);
-  today.setUTCHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
   return dateObj < today;
 }
 
