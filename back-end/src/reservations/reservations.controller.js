@@ -15,6 +15,21 @@ function bodyDataHas(propertyName) {
   };
 }
 
+function isTuesday(dateString) {
+  const dateObj = new Date(dateString);
+  const day = dateObj.getDay();
+  return day === 1;
+}
+
+function isPastDate(dateString) {
+  const dateObj = new Date(dateString);
+  const today = new Date();
+  // Compare the dates, ignoring the time component
+  dateObj.setUTCHours(0, 0, 0, 0);
+  today.setUTCHours(0, 0, 0, 0);
+  return dateObj < today;
+}
+
 function isValidDate(dateString) {
   const regex = /^\d{4}-\d{2}-\d{2}$/;
   return regex.test(dateString);
@@ -22,13 +37,25 @@ function isValidDate(dateString) {
 
 function isValidReservationDate(req, res, next) {
   const { reservation_date } = req.body.data;
-  if (isValidDate(reservation_date)) {
-    return next();
+  if (!isValidDate(reservation_date)) {
+    return next({
+      status: 400,
+      message: "Invalid reservation_date. Please use the format YYYY-MM-DD.",
+    });
   }
-  next({
-    status: 400,
-    message: "Invalid reservation_date. Please use the format YYYY-MM-DD.",
-  });
+  if (isTuesday(reservation_date)) {
+    return next({
+      status: 400,
+      message: "Invalid reservation_date. The restaurant is closed on Tuesday.",
+    });
+  }
+  if (isPastDate(reservation_date)) {
+    return next({
+      status: 400,
+      message: "Invalid reservation_date. Please enter today or a future date.",
+    });
+  }
+  next();
 }
 
 function isValidTime(timeString) {
@@ -73,7 +100,7 @@ function isValidReservationPeople(req, res, next) {
   const { people } = req.body.data;
 
   // Check if people is a number and greater than 0
-  if (typeof people !== 'string') {
+  if (typeof people !== "string") {
     return next();
   }
 
@@ -86,7 +113,7 @@ function isValidReservationPeople(req, res, next) {
 
 function generateToday() {
   const today = new Date();
-  const formattedDate = today.toISOString().split('T')[0];
+  const formattedDate = today.toISOString().split("T")[0];
   return formattedDate;
 }
 
