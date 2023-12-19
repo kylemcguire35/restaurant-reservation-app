@@ -54,7 +54,7 @@ function NewReservation() {
       });
       return;
     }
-    if (isPastTime(formData.reservation_time)) {
+    if (isPastTime(formData.reservation_time, formData.reservation_date)) {
       setError({
         message:
           "Sorry, that time has already passed. Please enter another time.",
@@ -95,25 +95,40 @@ function NewReservation() {
   }
 
   function isPastDate(dateString) {
-    const dateObj = new Date(dateString + 'T00:00:00');
+    const dateObj = new Date(dateString + "T00:00:00");
     const today = new Date();
     // Compare the dates, ignoring the time component
     today.setHours(0, 0, 0, 0);
     return dateObj < today;
   }
 
-  function isPastTime(timeString) {
-    const time = parseInt(timeString.split(":").join(""))
-    const currentTime = new Date()
-    const hours = currentTime.getHours().toString().padStart(2, '0');
-    const minutes = currentTime.getMinutes().toString().padStart(2, '0');
-    const formattedTime = parseInt(`${hours}${minutes}`)
-    return time < formattedTime;
+  function isToday(dateString) {
+    const dateObj = new Date(dateString + "T00:00:00");
+    const today = new Date();
+    // Compare the dates, ignoring the time component
+    today.setHours(0, 0, 0, 0);
+    return (
+      dateObj.getFullYear() === today.getFullYear() &&
+      dateObj.getMonth() === today.getMonth() &&
+      dateObj.getDate() === today.getDate()
+    );
+  }
+
+  function isPastTime(timeString, dateString) {
+    if (isToday(dateString)) {
+      const time = parseInt(timeString.split(":").join(""));
+      const currentTime = new Date();
+      const hours = currentTime.getHours().toString().padStart(2, "0");
+      const minutes = currentTime.getMinutes().toString().padStart(2, "0");
+      const formattedTime = parseInt(`${hours}${minutes}`);
+      return time < formattedTime;
+    }
+    return false;
   }
 
   function isClosed(timeString) {
-    const time = parseInt(timeString.split(":").join(""))
-    return (time < 1030 || time > 2130)
+    const time = parseInt(timeString.split(":").join(""));
+    return time < 1030 || time > 2130;
   }
 
   return (
