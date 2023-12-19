@@ -12,6 +12,7 @@ import ReservationsList from "../layout/ReservationsList";
 function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
+  // eslint-disable-next-line
   const [counter, setCounter] = useState(0);
 
   useEffect(() => {
