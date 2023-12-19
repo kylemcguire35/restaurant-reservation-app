@@ -54,6 +54,20 @@ function NewReservation() {
       });
       return;
     }
+    if (isPastTime(formData.reservation_time)) {
+      setError({
+        message:
+          "Sorry, that time has already passed. Please enter another time.",
+      });
+      return;
+    }
+    if (isClosed(formData.reservation_time)) {
+      setError({
+        message:
+          "Sorry, we are not taking reservations at this time. Please enter another time.",
+      });
+      return;
+    }
     console.log(formData);
     createReservation(formData);
     setFormData({ ...initialFormState });
@@ -86,6 +100,20 @@ function NewReservation() {
     // Compare the dates, ignoring the time component
     today.setHours(0, 0, 0, 0);
     return dateObj < today;
+  }
+
+  function isPastTime(timeString) {
+    const time = parseInt(timeString.split(":").join(""))
+    const currentTime = new Date()
+    const hours = currentTime.getHours().toString().padStart(2, '0');
+    const minutes = currentTime.getMinutes().toString().padStart(2, '0');
+    const formattedTime = parseInt(`${hours}${minutes}`)
+    return time < formattedTime;
+  }
+
+  function isClosed(timeString) {
+    const time = parseInt(timeString.split(":").join(""))
+    return (time < 1030 || time > 2130)
   }
 
   return (
