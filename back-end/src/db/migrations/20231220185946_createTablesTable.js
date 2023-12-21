@@ -4,6 +4,12 @@ exports.up = function (knex) {
     table.string("table_name");
     table.integer("capacity");
     table.boolean("free");
+    table
+      .integer("reservation_id")
+      .unsigned()
+      .references("reservation_id")
+      .inTable("reservations")
+      .onDelete("CASCADE")
     table.timestamps(true, true);
   });
 };
