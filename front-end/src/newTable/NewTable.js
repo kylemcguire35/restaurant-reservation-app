@@ -11,12 +11,14 @@ function NewTable() {
   const initialFormState = {
     table_name: "",
     capacity: "",
+    free: true,
   };
 
   const [formData, setFormData] = useState({ ...initialFormState });
 
   const handleChange = ({ target }) => {
     let value = target.value;
+    if (target.name === "capacity") value = parseInt(target.value);
     setFormData({
       ...formData,
       [target.name]: value,
@@ -36,7 +38,7 @@ function NewTable() {
       });
       return;
     }
-    createTable(formData)
+    createTable(formData);
     console.log(formData);
     setFormData({ ...initialFormState });
     history.push("/");
