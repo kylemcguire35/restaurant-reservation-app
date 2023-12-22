@@ -20,6 +20,12 @@ function bodyDataHas(propertyName) {
 /********** 
 Functions
 **********/
+//List Function
+async function list(req, res) {
+  const data = await service.listByName();
+  res.json({ data });
+}
+
 //Create Function
 async function create(req, res) {
   const newTable = await service.create(req.body.data);
@@ -34,4 +40,5 @@ module.exports = {
     bodyDataHas("capacity"),
     asyncErrorBoundary(create),
   ],
+  list: [asyncErrorBoundary(list)]
 };
