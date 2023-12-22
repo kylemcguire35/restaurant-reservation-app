@@ -12,7 +12,9 @@ describe("US-04 - Seat reservation", () => {
   });
 
   beforeEach(() => {
-    return knex.seed.run();
+    // Truncate the reservations table before seeding
+    return knex("tables").truncate()
+      .then(() => knex.seed.run());
   });
 
   afterAll(async () => {
