@@ -18,6 +18,43 @@ function bodyDataHas(propertyName) {
 }
 
 /********** 
+Table Name Middleware
+**********/
+function isTooShort(name) {
+  return name.length < 2;
+}
+
+function isValidName(req, res, next) {
+  const { table_name } = req.body.data;
+  if (isTooShort(table_name)) {
+    return next({
+      status: 400,
+      message:
+        "Invalid table_name. Table name must be at least 2 characters long.",
+    });
+  }
+  next();
+}
+
+/********** 
+Capacity Middleware
+**********/
+function isNotNumber(capacity) {
+  return typeof capacity === "string";
+}
+
+function isValidCapacity(req, res, next) {
+  const { capacity } = req.body.data;
+  if (isNotNumber(capacity)) {
+    return next({
+      status: 400,
+      message: "Invalid capacity. Capacity must be a number.",
+    });
+  }
+  next();
+}
+
+/********** 
 Functions
 **********/
 //List Function
@@ -38,7 +75,9 @@ module.exports = {
   create: [
     bodyDataHas("table_name"),
     bodyDataHas("capacity"),
+    isValidName,
+    isValidCapacity,
     asyncErrorBoundary(create),
   ],
-  list: [asyncErrorBoundary(list)]
+  list: [asyncErrorBoundary(list)],
 };
