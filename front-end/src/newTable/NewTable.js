@@ -38,9 +38,16 @@ function NewTable() {
       });
       return;
     }
+    if (!isValidName(formData.table_name)) {
+      setError({
+        message:
+          "Table name must be at least 2 characters long.",
+      });
+      return;
+    }
     createTable(formData);
-    console.log(formData);
     setFormData({ ...initialFormState });
+    setError(null);
     history.push("/");
   };
 
@@ -49,6 +56,10 @@ function NewTable() {
       (value) => value === null || value === ""
     );
   };
+
+  const isValidName = (name) => {
+    return name.length >= 2
+  }
 
   return (
     <div>
