@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { listReservations } from "../utils/api";
+import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationsList from "./ReservationsList";
+import TablesList from "./TablesList";
 
 /**
  * Defines the dashboard page.
@@ -12,6 +13,8 @@ import ReservationsList from "./ReservationsList";
 function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
+  const [tables, setTables] = useState([]);
+  const [tablesError, setTablesError] = useState(null)
   // eslint-disable-next-line
   const [counter, setCounter] = useState(0);
 
@@ -19,12 +22,25 @@ function Dashboard({ date }) {
     loadDashboard(date);
   }, [date]);
 
+  useEffect(() => {
+    loadTables()
+  }, [])
+
   function loadDashboard(date) {
     const abortController = new AbortController();
     setReservationsError(null);
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
+    return () => abortController.abort();
+  }
+
+  function loadTables() {
+    const abortController = new AbortController();
+    setTablesError(null);
+    listTables(abortController.signal)
+      .then(setTables)
+      .catch(setTablesError);
     return () => abortController.abort();
   }
 
@@ -56,16 +72,21 @@ function Dashboard({ date }) {
   return (
     <main>
       <h1>Dashboard</h1>
-      <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for date</h4>
-      </div>
       <div>
         <button onClick={() => adjustDate("next")}>Next</button>
         <button onClick={() => adjustDate("prev")}>Previous</button>
         <button onClick={() => adjustDate("today")}>Today</button>
       </div>
+      <div className="d-md-flex mb-3">
+        <h4 className="mb-0">Reservations for date</h4>
+      </div>
       <ErrorAlert error={reservationsError} />
       <ReservationsList reservations={reservations} />
+      <div className="d-md-flex mb-3">
+        <h4 className="mb-0">Tables</h4>
+      </div>
+      <ErrorAlert error={tablesError} />
+      <TablesList tables={tables}/>
     </main>
   );
 }
