@@ -38,7 +38,7 @@ function NewTable() {
       });
       return;
     }
-    if (!isValidName(formData.table_name)) {
+    if (isTooShort(formData.table_name)) {
       setError({
         message:
           "Table name must be at least 2 characters long.",
@@ -57,8 +57,8 @@ function NewTable() {
     );
   };
 
-  const isValidName = (name) => {
-    return name.length >= 2
+  function isTooShort(name) {
+    return name.length < 2;
   }
 
   return (
