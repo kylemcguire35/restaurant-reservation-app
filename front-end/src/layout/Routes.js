@@ -4,6 +4,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import Dashboard from "../dashboard/Dashboard";
 import NewReservation from "../newReservation/NewReservation";
 import NewTable from "../newTable/NewTable";
+import Tables from "../tables/Tables";
 import NotFound from "./NotFound";
 import { today } from "../utils/date-time";
 
@@ -28,6 +29,9 @@ function Routes() {
       </Route>
       <Route path="/reservations/new">
         <NewReservation />
+      </Route>
+      <Route path="/reservations/:reservationId/seat">
+        <Tables />
       </Route>
       <Route path="/tables/new">
         <NewTable />
