@@ -68,7 +68,6 @@ function NewReservation() {
       });
       return;
     }
-    console.log(formData);
     createReservation(formData);
     setFormData({ ...initialFormState });
     setError(null);
