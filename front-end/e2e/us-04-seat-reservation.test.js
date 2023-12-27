@@ -258,34 +258,28 @@ describe("US-04 - Seat reservation - E2E", () => {
       });
 
       const hrefSelector = `[href="/reservations/${reservation.reservation_id}/seat"]`;
-      try {
-        console.log("Before waiting for selector");
-        await page.waitForSelector(hrefSelector);
-        console.log("After waiting for selector");
-      } catch (error) {
-        console.error(error);
-      }
+
+      console.log("Before waiting for selector");
+      await page.waitForSelector(hrefSelector);
+      console.log("After waiting for selector");
 
       await page.screenshot({
         path: ".screenshots/us-04-dashboard-seat-button-after.png",
         fullPage: true,
       });
 
-      try {
-        console.log("Before waiting for contains seat function");
-        const containsSeat = await page.evaluate((hrefSelector) => {
-          return document
-            .querySelector(hrefSelector)
-            .innerText.toLowerCase()
-            .includes("seat");
-        }, hrefSelector);
-        console.log("After waiting for contains seat function");
-        console.log("Before expect");
-        expect(containsSeat).toBe(true);
-        console.log("After expect");
-      } catch (error) {
-        console.error(error);
-      }
+      console.log("Before waiting for contains seat function");
+      const containsSeat = await page.evaluate((hrefSelector) => {
+        return document
+          .querySelector(hrefSelector)
+          .innerText.toLowerCase()
+          .includes("seat");
+      }, hrefSelector);
+      console.log("After waiting for contains seat function");
+
+      console.log("Before expect");
+      expect(containsSeat).toBe(true);
+      console.log("After expect");
     });
   });
 });
