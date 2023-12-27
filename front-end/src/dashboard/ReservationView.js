@@ -10,9 +10,9 @@ function ReservationView({ reservation }) {
       <td>{reservation.people}</td>
       <td>{reservation.mobile_number}</td>
       <td>
-        <a href={`/reservations/${reservation.reservation_id}/seat`}>
-          Seat
-        </a>
+        <Link to={`/reservations/${reservation.reservation_id}/seat`}>
+          <button type="submit">Seat</button>
+        </Link>
       </td>
     </tr>
   );
