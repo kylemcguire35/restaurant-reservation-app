@@ -258,28 +258,23 @@ describe("US-04 - Seat reservation - E2E", () => {
       });
 
       const hrefSelector = `[href="/reservations/${reservation.reservation_id}/seat"]`;
-
-      console.log("Before waiting for selector");
+      console.log("hrefSelector " + hrefSelector);
       await page.waitForSelector(hrefSelector);
-      console.log("After waiting for selector");
 
       await page.screenshot({
         path: ".screenshots/us-04-dashboard-seat-button-after.png",
         fullPage: true,
       });
 
-      console.log("Before waiting for contains seat function");
       const containsSeat = await page.evaluate((hrefSelector) => {
         return document
           .querySelector(hrefSelector)
           .innerText.toLowerCase()
           .includes("seat");
       }, hrefSelector);
-      console.log("After waiting for contains seat function");
+      console.log("containsSeat: " + containsSeat)
 
-      console.log("Before expect");
       expect(containsSeat).toBe(true);
-      console.log("After expect");
     });
   });
 });
