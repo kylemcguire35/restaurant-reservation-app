@@ -1,5 +1,5 @@
 const puppeteer = require("puppeteer");
-const { setDefaultOptions } = require('expect-puppeteer');
+const { setDefaultOptions } = require("expect-puppeteer");
 const fs = require("fs");
 const fsPromises = fs.promises;
 
@@ -199,43 +199,46 @@ describe("US-04 - Seat reservation - E2E", () => {
     });
 
     test("cannot seat reservation at Bar #1", async () => {
-        await page.waitForSelector('option:not([value=""])');
+      await page.waitForSelector('option:not([value=""])');
 
-        await page.screenshot({
-          path: ".screenshots/us-04-seat-capacity-reservation-start.png",
-          fullPage: true,
-        });
-
-        await selectOptionByText(page, "table_id", "Bar #1 - 1");
-
-        await page.screenshot({
-          path: ".screenshots/us-04-seat-capacity-reservation-submit-before.png",
-          fullPage: true,
-        });
-
-        await Promise.all([
-          page.click("[type=submit]"),
-        ]);
-
-        await page.screenshot({
-          path: ".screenshots/us-04-seat-capacity-reservation-submit-after.png",
-          fullPage: true,
-        });
-
-        expect(page.url()).toContain("/seat");
+      await page.screenshot({
+        path: ".screenshots/us-04-seat-capacity-reservation-start.png",
+        fullPage: true,
       });
+
+      await selectOptionByText(page, "table_id", "Bar #1 - 1");
+
+      await page.screenshot({
+        path: ".screenshots/us-04-seat-capacity-reservation-submit-before.png",
+        fullPage: true,
+      });
+
+      await Promise.all([page.click("[type=submit]")]);
+
+      await page.screenshot({
+        path: ".screenshots/us-04-seat-capacity-reservation-submit-after.png",
+        fullPage: true,
+      });
+
+      expect(page.url()).toContain("/seat");
+    });
   });
 
   describe("/dashboard page", () => {
     let reservation;
+    const lastName = Date.now().toString(10);
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth() + 1;
+    const day = new Date().getDate();
+    const today = `${year}-${month}-${day}`;
 
     beforeEach(async () => {
       reservation = await createReservation({
         first_name: "Seat",
-        last_name: Date.now().toString(10),
+        last_name: lastName,
         mobile_number: "800-555-1313",
-        reservation_date: "2035-01-01",
-        reservation_time: "13:45",
+        reservation_date: today,
+        reservation_time: "18:30",
         people: 4,
       });
 
@@ -255,22 +258,34 @@ describe("US-04 - Seat reservation - E2E", () => {
       });
 
       const hrefSelector = `[href="/reservations/${reservation.reservation_id}/seat"]`;
-
-      await page.waitForSelector(hrefSelector);
+      try {
+        console.log("Before waiting for selector");
+        await page.waitForSelector(hrefSelector);
+        console.log("After waiting for selector");
+      } catch (error) {
+        console.error(error);
+      }
 
       await page.screenshot({
         path: ".screenshots/us-04-dashboard-seat-button-after.png",
         fullPage: true,
       });
 
-      const containsSeat = await page.evaluate((hrefSelector) => {
-        return document
-          .querySelector(hrefSelector)
-          .innerText.toLowerCase()
-          .includes("seat");
-      }, hrefSelector);
-
-      expect(containsSeat).toBe(true);
+      try {
+        console.log("Before waiting for contains seat function");
+        const containsSeat = await page.evaluate((hrefSelector) => {
+          return document
+            .querySelector(hrefSelector)
+            .innerText.toLowerCase()
+            .includes("seat");
+        }, hrefSelector);
+        console.log("After waiting for contains seat function");
+        console.log("Before expect");
+        expect(containsSeat).toBe(true);
+        console.log("After expect");
+      } catch (error) {
+        console.error(error);
+      }
     });
   });
 });

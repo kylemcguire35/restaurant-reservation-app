@@ -17,6 +17,15 @@ function bodyDataHas(propertyName) {
   };
 }
 
+async function reservationExists(req, res, next) {
+  const reservation = await service.read(req.params.reservationId);
+  if (reservation.length > 0) {
+    res.locals.reservation = reservation;
+    return next();
+  }
+  next({ status: 404, message: `Reservation cannot be found.` });
+}
+
 /********** 
 Date Middleware
 **********/
@@ -183,6 +192,12 @@ async function list(req, res) {
   res.json({ data });
 }
 
+//Read Function
+function read(req, res, next) {
+  const data = res.locals.reservation[0];
+  res.json({ data });
+}
+
 //Create Function
 async function create(req, res) {
   const newReservation = await service.create(req.body.data);
@@ -205,4 +220,5 @@ module.exports = {
     isValidReservationTime,
     asyncErrorBoundary(create),
   ],
+  read: [asyncErrorBoundary(reservationExists), read]
 };

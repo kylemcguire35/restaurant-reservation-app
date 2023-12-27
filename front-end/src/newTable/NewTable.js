@@ -6,15 +6,13 @@ import ErrorAlert from "../layout/ErrorAlert";
 function NewTable() {
   const history = useHistory();
 
-  const [error, setError] = useState(null);
-
   const initialFormState = {
     table_name: "",
     capacity: "",
-    free: true,
   };
 
   const [formData, setFormData] = useState({ ...initialFormState });
+  const [error, setError] = useState(null);
 
   const handleChange = ({ target }) => {
     let value = target.value;

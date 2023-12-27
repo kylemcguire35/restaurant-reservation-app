@@ -17,6 +17,24 @@ function bodyDataHas(propertyName) {
   };
 }
 
+async function tableExists(req, res, next) {
+  const table = await service.readTable(req.params.tableId);
+  if (table.length > 0) {
+    res.locals.table = table[0];
+    return next();
+  }
+  next({ status: 404, message: `Table cannot be found.` });
+}
+
+async function reservationExists(req, res, next) {
+  const reservation = await service.read(req.body.data.reservation_id);
+  if (reservation.length > 0) {
+    res.locals.reservation = reservation[0];
+    return next();
+  }
+  next({ status: 404, message: `Reservation ${req.body.data.reservation_id} cannot be found.` });
+}
+
 /********** 
 Table Name Middleware
 **********/
@@ -54,6 +72,32 @@ function isValidCapacity(req, res, next) {
   next();
 }
 
+function hasSufficientCapacity(req, res, next) {
+  const capacity = res.locals.table.capacity;
+  const people = res.locals.reservation.people;
+  if (people > capacity) {
+    return next({
+      status: 400,
+      message: "Reached max capacity. Please seat at a larger table.",
+    });
+  }
+  next()
+}
+
+/********** 
+Table Free Middleware
+**********/
+function isTableOccupied(req, res, next) {
+  const reservation_id = res.locals.table.reservation_id;
+  if (reservation_id !== null) {
+    return next({
+      status: 400,
+      message: "Table is occupied.",
+    });
+  }
+  next()
+}
+
 /********** 
 Functions
 **********/
@@ -71,6 +115,17 @@ async function create(req, res) {
   });
 }
 
+//Update Function
+async function update(req, res) {
+  const updatedTable = {
+    ...req.body.data,
+    table_id: res.locals.table.table_id,
+    reservation_id: res.locals.reservation.reservation_id,
+  };
+  const data = await service.update(updatedTable);
+  res.json({ data });
+}
+
 module.exports = {
   create: [
     bodyDataHas("table_name"),
@@ -80,4 +135,12 @@ module.exports = {
     asyncErrorBoundary(create),
   ],
   list: [asyncErrorBoundary(list)],
+  update: [
+    bodyDataHas("reservation_id"),
+    asyncErrorBoundary(tableExists),
+    asyncErrorBoundary(reservationExists),
+    hasSufficientCapacity,
+    isTableOccupied,
+    asyncErrorBoundary(update),
+  ],
 };

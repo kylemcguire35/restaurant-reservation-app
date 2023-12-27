@@ -24,7 +24,7 @@ function Dashboard({ date }) {
 
   useEffect(() => {
     loadTables()
-  }, [])
+  }, [tables])
 
   function loadDashboard(date) {
     const abortController = new AbortController();
@@ -32,6 +32,7 @@ function Dashboard({ date }) {
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
+    //listTables().then(setTables);
     return () => abortController.abort();
   }
 
@@ -62,9 +63,8 @@ function Dashboard({ date }) {
       const displayDate = currentDate.toISOString().split("T")[0];
 
       // Call loadDashboard with the updated date
-      console.log(displayDate);
-      loadDashboard(displayDate);
 
+      loadDashboard(displayDate);
       return newCounter;
     });
   }

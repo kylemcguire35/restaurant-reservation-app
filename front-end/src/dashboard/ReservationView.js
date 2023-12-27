@@ -3,15 +3,18 @@ import { Link } from "react-router-dom";
 
 function ReservationView({ reservation }) {
   return (
-    <div>
-      <p>
-        {reservation.first_name} {reservation.last_name}
-      </p>
-      <p>{reservation.reservation_time}</p>
-      <p>{reservation.people}</p>
-      <p>{reservation.mobile_number}</p>
-      <Link to={`/reservations/${reservation.reservation_id}/seat`}>Seat</Link>
-    </div>
+    <tr>
+      <td>{reservation.first_name}</td>
+      <td>{reservation.last_name}</td>
+      <td>{reservation.reservation_time}</td>
+      <td>{reservation.people}</td>
+      <td>{reservation.mobile_number}</td>
+      <td>
+        <a href={`/reservations/${reservation.reservation_id}/seat`}>
+          Seat
+        </a>
+      </td>
+    </tr>
   );
 }
 
