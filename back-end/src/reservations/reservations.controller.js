@@ -23,7 +23,7 @@ async function reservationExists(req, res, next) {
     res.locals.reservation = reservation;
     return next();
   }
-  next({ status: 404, message: `Reservation cannot be found.` });
+  next({ status: 404, message: `Reservation ${req.params.reservationId} cannot be found.` });
 }
 
 /********** 
@@ -181,12 +181,12 @@ Functions
 **********/
 //List Function
 async function list(req, res) {
-  const datefromQuery = req.query.date;
+  const dateFromQuery = req.query.date;
   let date = "";
-  if (!datefromQuery) {
+  if (!dateFromQuery) {
     date = generateToday();
   } else {
-    date = datefromQuery;
+    date = dateFromQuery;
   }
   const data = await service.listByDate(date);
   res.json({ data });

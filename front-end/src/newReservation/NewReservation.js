@@ -71,15 +71,16 @@ function NewReservation() {
     createReservation(formData);
     setFormData({ ...initialFormState });
     setError(null);
-    history.push("/");
+    history.push(`/dashboard?date=${formData.reservation_date}`);
+    window.location.reload();
   };
-
-  const formattedPhoneNumber = formatPhoneNumber(formData.mobile_number);
 
   function formatPhoneNumber(input) {
     const numericInput = input.replace(/\D/g, "");
     return numericInput.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
   }
+
+  const formattedPhoneNumber = formatPhoneNumber(formData.mobile_number);
 
   const isNull = () => {
     return Object.values(formData).some(

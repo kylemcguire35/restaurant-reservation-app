@@ -12,8 +12,10 @@ describe("US-01 - Create and list reservations", () => {
   });
 
   beforeEach(() => {
-    // Truncate the reservations table before seeding
-    return knex("reservations").truncate()
+    return knex.migrate
+      .forceFreeMigrationsLock()
+      .then(() => knex.migrate.rollback(null, true))
+      .then(() => knex.migrate.latest())
       .then(() => knex.seed.run());
   });
 

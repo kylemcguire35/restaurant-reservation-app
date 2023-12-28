@@ -72,15 +72,15 @@ function Tables() {
     }
     if (isTableOccupied(formData.table_id)) {
       setError({
-        message:
-          "Table is occupied.",
+        message: "Table is occupied.",
       });
       return;
     }
     updateTable(formData);
     setError(null);
-    history.push("/");
-    window.location.reload()
+    history.push(
+      `/dashboard?date=${reservation.reservation_date.split("T")[0]}`
+    );
   };
 
   function isNull() {
@@ -93,7 +93,7 @@ function Tables() {
 
   function hasSufficientCapacity(tableId) {
     const capacity = findCapacityByID(tableId);
-    const people = reservation.people
+    const people = reservation.people;
     return capacity >= people;
   }
 

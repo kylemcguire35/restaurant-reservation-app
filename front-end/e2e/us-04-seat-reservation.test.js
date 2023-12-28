@@ -20,7 +20,7 @@ describe("US-04 - Seat reservation - E2E", () => {
   beforeAll(async () => {
     await fsPromises.mkdir("./.screenshots", { recursive: true });
     setDefaultOptions({ timeout: 1000 });
-    browser = await puppeteer.launch();
+    browser = await puppeteer.launch({ headless: true });
   });
 
   afterAll(async () => {
@@ -226,27 +226,24 @@ describe("US-04 - Seat reservation - E2E", () => {
 
   describe("/dashboard page", () => {
     let reservation;
-    const lastName = Date.now().toString(10);
-    const year = new Date().getFullYear();
-    const month = new Date().getMonth() + 1;
-    const day = new Date().getDate();
-    const today = `${year}-${month}-${day}`;
 
     beforeEach(async () => {
       reservation = await createReservation({
         first_name: "Seat",
-        last_name: lastName,
+        last_name: Date.now().toString(10),
         mobile_number: "800-555-1313",
-        reservation_date: today,
-        reservation_time: "18:30",
+        reservation_date: "2035-01-01",
+        reservation_time: "13:45",
         people: 4,
       });
 
       page = await browser.newPage();
       page.on("console", onPageConsole);
       await page.setViewport({ width: 1920, height: 1080 });
+      await page.setDefaultNavigationTimeout(0);
       await page.goto(`${baseURL}/dashboard?date=2035-01-01`, {
-        waitUntil: "networkidle0",
+        waitUntil: "networkidle2",
+        timeout: 0,
       });
     });
 
@@ -257,9 +254,9 @@ describe("US-04 - Seat reservation - E2E", () => {
         fullPage: true,
       });
 
-      const hrefSelector = `[href="/reservations/${reservation.reservation_id}/seat"]`;
-      console.log("hrefSelector " + hrefSelector);
-      await page.waitForSelector(hrefSelector);
+      const hrefSelector = `a[href="/reservations/${reservation.reservation_id}/seat"]`;
+
+      await page.waitForSelector(hrefSelector, { timeout: 0 });
 
       await page.screenshot({
         path: ".screenshots/us-04-dashboard-seat-button-after.png",
@@ -272,7 +269,6 @@ describe("US-04 - Seat reservation - E2E", () => {
           .innerText.toLowerCase()
           .includes("seat");
       }, hrefSelector);
-      console.log("containsSeat: " + containsSeat)
 
       expect(containsSeat).toBe(true);
     });

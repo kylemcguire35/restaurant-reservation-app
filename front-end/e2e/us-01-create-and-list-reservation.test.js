@@ -1,5 +1,5 @@
 const puppeteer = require("puppeteer");
-const { setDefaultOptions } = require("expect-puppeteer");
+const { setDefaultOptions } = require('expect-puppeteer');
 const fs = require("fs");
 const fsPromises = fs.promises;
 
@@ -31,20 +31,14 @@ describe("US-01 - Create and list reservations - E2E", () => {
     await browser.close();
   });
 
-  //IMPORTANT: Only test when it is NOT Tuesday
-  //Other tests will conflict and cause to fail
   describe("/reservations/new page", () => {
     test("filling and submitting form creates a new reservation and then displays the dashboard for the reservation date", async () => {
       const lastName = Date.now().toString(10);
-      const year = new Date().getFullYear();
-      const month = new Date().getMonth() + 1;
-      const day = new Date().getDate();
-      const today = `${month}${day}${year}`;
 
       await page.type("input[name=first_name]", "James");
       await page.type("input[name=last_name]", lastName);
       await page.type("input[name=mobile_number]", "800-555-1212");
-      await page.type("input[name=reservation_date]", today);
+      await page.type("input[name=reservation_date]", "01012035");
       await page.type("input[name=reservation_time]", "0930p");
       await page.type("input[name=people]", "2");
 
@@ -53,24 +47,23 @@ describe("US-01 - Create and list reservations - E2E", () => {
         fullPage: true,
       });
 
-      //Remove when necessary, other tests can cause this to fail
       await Promise.all([
         page.click("[type=submit]"),
-        page.waitForNavigation({ waitUntil: "networkidle0" }),
+        page.waitForNavigation({ waitUntil: "networkidle2" }),
       ]);
-      
+
       await page.screenshot({
         path: ".screenshots/us-01-submit-after.png",
         fullPage: true,
       });
-      
+
       await expect(page).toMatch(lastName);
     });
 
     test("canceling form returns to previous page", async () => {
-      await page.goto(`${baseURL}/dashboard`, { waitUntil: "networkidle0" });
+      await page.goto(`${baseURL}/dashboard`, { waitUntil: "networkidle2" });
       await page.goto(`${baseURL}/reservations/new`, {
-        waitUntil: "networkidle0",
+        waitUntil: "networkidle2",
       });
 
       const [cancelButton] = await page.$x(
@@ -88,7 +81,7 @@ describe("US-01 - Create and list reservations - E2E", () => {
 
       await Promise.all([
         cancelButton.click(),
-        page.waitForNavigation({ waitUntil: "networkidle0" }),
+        page.waitForNavigation({ waitUntil: "networkidle2" }),
       ]);
 
       await page.screenshot({
