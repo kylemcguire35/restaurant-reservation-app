@@ -20,10 +20,13 @@ function bodyDataHas(propertyName) {
 async function reservationExists(req, res, next) {
   const reservation = await service.read(req.params.reservationId);
   if (reservation.length > 0) {
-    res.locals.reservation = reservation;
+    res.locals.reservation = reservation[0];
     return next();
   }
-  next({ status: 404, message: `Reservation ${req.params.reservationId} cannot be found.` });
+  next({
+    status: 404,
+    message: `Reservation ${req.params.reservationId} cannot be found.`,
+  });
 }
 
 /********** 
@@ -125,8 +128,8 @@ function isPastTime(timeString, dateString) {
     const hours = currentTime.getHours().toString().padStart(2, "0");
     const minutes = currentTime.getMinutes().toString().padStart(2, "0");
     const formattedTime = parseInt(`${hours}${minutes}`);
-    return (time < formattedTime);
-  } 
+    return time < formattedTime;
+  }
   return false;
 }
 
@@ -177,6 +180,54 @@ function isValidReservationPeople(req, res, next) {
 }
 
 /********** 
+Status Middleware
+**********/
+function isBooked(status) {
+  return status === "booked";
+}
+
+function isSeated(status) {
+  return status === "seated";
+}
+
+function isFinished(status) {
+  return status === "finished";
+}
+
+function isValidStatusForCreate(req, res, next) {
+  const { status } = req.body.data;
+  if (!isBooked(status)) {
+    return next({
+      status: 400,
+      message: "Table status must be booked. It cannot be seated or finished.",
+    });
+  }
+  next();
+}
+
+function isValidStatusForUpdate(req, res, next) {
+  const { status } = req.body.data;
+  if (!isBooked(status) && !isSeated(status) && !isFinished(status)) {
+    return next({
+      status: 400,
+      message: "Table status is unknown.",
+    });
+  }
+  next();
+}
+
+function isAlreadyFinished(req, res, next) {
+  const status = res.locals.reservation.status;
+  if (status === "finished") {
+    return next({
+      status: 400,
+      message: "Table status is already finished.",
+    });
+  }
+  next();
+}
+
+/********** 
 Functions
 **********/
 //List Function
@@ -206,6 +257,15 @@ async function create(req, res) {
   });
 }
 
+async function update(req, res) {
+  const updatedReservation = {
+    ...res.locals.reservation,
+    status: req.body.data.status,
+  };
+  const data = await service.update(updatedReservation);
+  res.json({ data });
+}
+
 module.exports = {
   list: [asyncErrorBoundary(list)],
   create: [
@@ -215,10 +275,18 @@ module.exports = {
     bodyDataHas("reservation_date"),
     bodyDataHas("reservation_time"),
     bodyDataHas("people"),
+    bodyDataHas("status"),
     isValidReservationPeople,
     isValidReservationDate,
     isValidReservationTime,
+    isValidStatusForCreate,
     asyncErrorBoundary(create),
   ],
-  read: [asyncErrorBoundary(reservationExists), read]
+  read: [asyncErrorBoundary(reservationExists), read],
+  updateStatus: [
+    asyncErrorBoundary(reservationExists),
+    isAlreadyFinished,
+    isValidStatusForUpdate,
+    asyncErrorBoundary(update),
+  ],
 };

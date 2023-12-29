@@ -12,7 +12,11 @@ describe("US-06 - Reservation status", () => {
   });
 
   beforeEach(() => {
-    return knex.seed.run();
+    return knex.migrate
+      .forceFreeMigrationsLock()
+      .then(() => knex.migrate.rollback(null, true))
+      .then(() => knex.migrate.latest())
+      .then(() => knex.seed.run());
   });
 
   afterAll(async () => {
@@ -111,7 +115,7 @@ describe("US-06 - Reservation status", () => {
       reservationOne.status = "finished";
       await knex("reservations")
         .where({ reservation_id: reservationOne.reservation_id })
-        .update(reservationOne, "*");
+        .update({...reservationOne, status: "finished"});
 
       const response = await request(app)
         .put(`/reservations/${reservationOne.reservation_id}/status`)
