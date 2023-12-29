@@ -1,5 +1,5 @@
 const puppeteer = require("puppeteer");
-const { setDefaultOptions } = require('expect-puppeteer');
+const { setDefaultOptions } = require("expect-puppeteer");
 const fs = require("fs");
 const fsPromises = fs.promises;
 
@@ -51,9 +51,9 @@ describe("US-05 - Finish an occupied table - E2E", () => {
       page.on("console", onPageConsole);
       await page.setViewport({ width: 1920, height: 1080 });
       await page.goto(`${baseURL}/dashboard?date=2035-01-01`, {
-        waitUntil: "networkidle0",
+        waitUntil: "networkidle2",
       });
-      await page.reload({ waitUntil: "networkidle0" });
+      await page.reload({ waitUntil: "networkidle2" });
     });
 
     test("clicking finish button and then clicking OK makes that table available", async () => {
