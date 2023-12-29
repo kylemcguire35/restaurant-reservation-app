@@ -6,6 +6,7 @@ function ReservationsList({ reservations }) {
     <table>
       <th>First Name</th>
       <th>Last Name</th>
+      <th>Date</th>
       <th>Time</th>
       <th>Party of</th>
       <th>Phone Number</th>

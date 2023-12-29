@@ -197,7 +197,7 @@ function isFinished(status) {
 function isValidStatusForCreate(req, res, next) {
   const { status } = req.body.data;
   if (!status || isBooked(status)) {
-    return next()
+    return next();
   }
   next({
     status: 400,
@@ -232,14 +232,14 @@ Functions
 **********/
 //List Function
 async function list(req, res) {
-  const dateFromQuery = req.query.date;
-  let date = "";
-  if (!dateFromQuery) {
-    date = generateToday();
-  } else {
-    date = dateFromQuery;
+  const { date, mobile_number } = req.query;
+  let data;
+  if (date) {
+    data = await service.listByDate(date);
   }
-  const data = await service.listByDate(date);
+  if (mobile_number) {
+    data = await service.search(mobile_number);
+  }
   res.json({ data });
 }
 
