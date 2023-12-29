@@ -116,6 +116,20 @@ function isTableNotOccupied(req, res, next) {
 }
 
 /********** 
+Status Middleware
+**********/
+function isAlreadySeated(req, res, next) {
+  const status = res.locals.reservation.status;
+  if (status === "seated") {
+    return next({
+      status: 400,
+      message: "Table status is already seated.",
+    });
+  }
+  next();
+}
+
+/********** 
 Functions
 **********/
 //List Function
@@ -137,20 +151,28 @@ async function update(req, res) {
   const updatedTable = {
     ...req.body.data,
     table_id: res.locals.table.table_id,
-    reservation_id: res.locals.reservation.reservation_id,
   };
-  const data = await service.update(updatedTable);
+  const updatedReservation = {
+    ...res.locals.reservation,
+    reservation_id: res.locals.reservation.reservation_id,
+    status: "seated",
+  };
+  const data = await service.update(updatedTable, updatedReservation);
   res.json({ data });
 }
 
 //Finish Function
 async function finish(req, res, next) {
   const updatedTable = {
-    ...req.body.data,
-    table_id: res.locals.table.table_id,
+    ...res.locals.table,
     reservation_id: null,
   };
-  const data = await service.update(updatedTable);
+  const updatedReservation = {
+    ...res.locals.reservation,
+    reservation_id: res.locals.reservation.reservation_id,
+    status: "finished",
+  };
+  const data = await service.update(updatedTable, updatedReservation);
   res.json({ data });
 }
 
@@ -169,11 +191,13 @@ module.exports = {
     asyncErrorBoundary(reservationExists),
     hasSufficientCapacity,
     isTableOccupied,
+    isAlreadySeated,
     asyncErrorBoundary(update),
   ],
   finish: [
     asyncErrorBoundary(tableExists),
     isTableNotOccupied,
+    asyncErrorBoundary(reservationExists),
     asyncErrorBoundary(finish),
   ],
 };

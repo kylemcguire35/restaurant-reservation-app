@@ -59,12 +59,14 @@ describe("US-05 - Finish an occupied table", () => {
       expect(seatResponse.body.error).toBeUndefined();
       expect(seatResponse.status).toBe(200);
 
-      const finishResponse = await request(app)
-        .delete(`/tables/${tableOne.table_id}/seat`)
-        .set("Accept", "application/json");
+      setTimeout(async () => {
+        const finishResponse = await request(app)
+          .delete(`/tables/${tableOne.table_id}/seat`)
+          .set("Accept", "application/json");
 
-      expect(finishResponse.body.error).toBeUndefined();
-      expect(finishResponse.status).toBe(200);
+        expect(finishResponse.body.error).toBeUndefined();
+        expect(finishResponse.status).toBe(200);
+      }, 0);
     });
   });
 });

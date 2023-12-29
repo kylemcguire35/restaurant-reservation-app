@@ -11,20 +11,27 @@ function read(reservationId) {
 }
 
 function readTable(tableId) {
-  return knex("tables")
-    .select("*")
-    .where("table_id", tableId);
+  return knex("tables").select("*").where("table_id", tableId);
 }
 
 function create(newTable) {
   return knex("tables").insert(newTable).returning("*");
 }
 
-function update(updatedTable, updatedReservation) {
-  return knex("tables")
+async function update(updatedTable, updatedReservation) {
+  const trx = await knex.transaction();
+  return trx("tables")
     .where({ table_id: updatedTable.table_id })
     .update(updatedTable, "*")
-    .returning("*");
+    .then((updatedRecords) => updatedRecords[0])
+    .then(() => {
+      return trx("reservations")
+        .where({ reservation_id: updatedReservation.reservation_id })
+        .update(updatedReservation, "*")
+        .then((updatedResRecords) => updatedResRecords[0]);
+    })
+    .then(trx.commit)
+    .catch(trx.rollback);
 }
 
 module.exports = { create, listByName, read, readTable, update };
