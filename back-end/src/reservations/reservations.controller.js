@@ -196,13 +196,13 @@ function isFinished(status) {
 
 function isValidStatusForCreate(req, res, next) {
   const { status } = req.body.data;
-  if (!isBooked(status)) {
-    return next({
-      status: 400,
-      message: "Table status must be booked. It cannot be seated or finished.",
-    });
+  if (!status || isBooked(status)) {
+    return next()
   }
-  next();
+  next({
+    status: 400,
+    message: "Table status must be booked. It cannot be seated or finished.",
+  });
 }
 
 function isValidStatusForUpdate(req, res, next) {
@@ -245,7 +245,7 @@ async function list(req, res) {
 
 //Read Function
 function read(req, res, next) {
-  const data = res.locals.reservation[0];
+  const data = res.locals.reservation;
   res.json({ data });
 }
 
@@ -275,7 +275,6 @@ module.exports = {
     bodyDataHas("reservation_date"),
     bodyDataHas("reservation_time"),
     bodyDataHas("people"),
-    bodyDataHas("status"),
     isValidReservationPeople,
     isValidReservationDate,
     isValidReservationTime,
