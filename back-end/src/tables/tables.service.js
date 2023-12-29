@@ -20,12 +20,10 @@ function create(newTable) {
   return knex("tables").insert(newTable).returning("*");
 }
 
-function update(updatedTable) {
+function update(updatedTable, updatedReservation) {
   return knex("tables")
     .where({ table_id: updatedTable.table_id })
-    .update({
-      reservation_id: updatedTable.reservation_id,
-    })
+    .update(updatedTable, "*")
     .returning("*");
 }
 
