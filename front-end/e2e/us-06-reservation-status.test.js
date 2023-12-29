@@ -50,9 +50,9 @@ describe("US-06 - Reservation status - E2E", () => {
       page.on("console", onPageConsole);
       await page.setViewport({ width: 1920, height: 1080 });
       await page.goto(`${baseURL}/dashboard?date=2035-01-01`, {
-        waitUntil: "networkidle0",
+        waitUntil: "networkidle2",
       });
-      await page.reload({ waitUntil: "networkidle0" });
+      await page.reload({ waitUntil: "networkidle2" });
     });
 
     test("/dashboard displays status", async () => {
@@ -78,7 +78,7 @@ describe("US-06 - Reservation status - E2E", () => {
 
       await seatReservation(reservation.reservation_id, table.table_id);
 
-      await page.reload({ waitUntil: "networkidle0" });
+      await page.reload({ waitUntil: "networkidle2" });
 
       await page.screenshot({
         path: ".screenshots/us-06-seated-after.png",
@@ -102,7 +102,7 @@ describe("US-06 - Reservation status - E2E", () => {
     test("Finishing the table removes the reservation from the list", async () => {
       await seatReservation(reservation.reservation_id, table.table_id);
 
-      await page.reload({ waitUntil: "networkidle0" });
+      await page.reload({ waitUntil: "networkidle2" });
 
       await page.screenshot({
         path: ".screenshots/us-06-finish-before.png",
@@ -121,6 +121,8 @@ describe("US-06 - Reservation status - E2E", () => {
       await page.waitForResponse((response) => {
         return response.url().endsWith(`/tables`);
       });
+
+      await page.waitForTimeout(1000)
 
       await page.screenshot({
         path: ".screenshots/us-06-finish-after.png",

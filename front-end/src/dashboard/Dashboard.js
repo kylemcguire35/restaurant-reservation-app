@@ -23,7 +23,7 @@ function Dashboard({ date }) {
 
   useEffect(() => {
     loadDashboard(date);
-  }, [date]);
+  }, [date, reservations]);
 
   useEffect(() => {
     loadTables();

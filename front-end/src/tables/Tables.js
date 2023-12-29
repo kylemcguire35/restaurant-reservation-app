@@ -81,6 +81,7 @@ function Tables() {
     history.push(
       `/dashboard?date=${reservation.reservation_date.split("T")[0]}`
     );
+    window.location.reload()
   };
 
   function isNull() {

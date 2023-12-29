@@ -9,6 +9,7 @@ function ReservationsList({ reservations }) {
       <th>Time</th>
       <th>Party of</th>
       <th>Phone Number</th>
+      <th>Status</th>
       <tbody>
         {reservations.map((reservation) => (
           <ReservationView reservation={reservation} />
