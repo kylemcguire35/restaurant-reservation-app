@@ -3,7 +3,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { listTables, updateTable, readReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 
-function Tables() {
+function SeatReservation() {
   const history = useHistory();
   const { reservationId } = useParams();
 
@@ -139,4 +139,4 @@ function Tables() {
   );
 }
 
-export default Tables;
+export default SeatReservation;
