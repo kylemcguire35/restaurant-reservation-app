@@ -194,6 +194,10 @@ function isFinished(status) {
   return status === "finished";
 }
 
+function isCancelled(status) {
+  return status === "cancelled";
+}
+
 function isValidStatusForCreate(req, res, next) {
   const { status } = req.body.data;
   if (!status || isBooked(status)) {
@@ -207,7 +211,12 @@ function isValidStatusForCreate(req, res, next) {
 
 function isValidStatusForUpdate(req, res, next) {
   const { status } = req.body.data;
-  if (!isBooked(status) && !isSeated(status) && !isFinished(status)) {
+  if (
+    !isBooked(status) &&
+    !isSeated(status) &&
+    !isFinished(status) &&
+    !isCancelled(status)
+  ) {
     return next({
       status: 400,
       message: "Table status is unknown.",
@@ -257,10 +266,11 @@ async function create(req, res) {
   });
 }
 
+//Update Function
 async function update(req, res) {
   const updatedReservation = {
-    ...res.locals.reservation,
-    status: req.body.data.status,
+    ...req.body.data,
+    reservation_id: res.locals.reservation.reservation_id,
   };
   const data = await service.update(updatedReservation);
   res.json({ data });
@@ -286,6 +296,20 @@ module.exports = {
     asyncErrorBoundary(reservationExists),
     isAlreadyFinished,
     isValidStatusForUpdate,
+    asyncErrorBoundary(update),
+  ],
+  update: [
+    asyncErrorBoundary(reservationExists),
+    bodyDataHas("first_name"),
+    bodyDataHas("last_name"),
+    bodyDataHas("mobile_number"),
+    bodyDataHas("reservation_date"),
+    bodyDataHas("reservation_time"),
+    bodyDataHas("people"),
+    isValidReservationPeople,
+    isValidReservationDate,
+    isValidReservationTime,
+    isValidStatusForCreate,
     asyncErrorBoundary(update),
   ],
 };
