@@ -1,7 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { cancelReservation } from "../utils/api";
 
 function ReservationView({ reservation }) {
+  const handleCancel = (event) => {
+    event.preventDefault();
+    if (
+      window.confirm(
+        "Do you want to cancel this reservation? This cannot be undone."
+      )
+    ) {
+      cancelReservationFromAPI();
+    }
+  };
+
+  async function cancelReservationFromAPI() {
+    cancelReservation({ ...reservation, status: "cancelled" });
+  }
+
   return (
     <tr>
       <td>{reservation.first_name}</td>
@@ -13,6 +29,22 @@ function ReservationView({ reservation }) {
       <td data-reservation-id-status={reservation.reservation_id}>
         {reservation.status}
       </td>
+      <td>
+        <Link to={`/reservations/${reservation.reservation_id}/edit`}>
+          <button type="submit">Edit</button>
+        </Link>
+      </td>
+      {reservation.status !== "seated" ? (
+        <td>
+          <button
+            onClick={handleCancel}
+            type="submit"
+            data-reservation-id-cancel={reservation.reservation_id}
+          >
+            Cancel
+          </button>
+        </td>
+      ) : null}
       {reservation.status === "booked" ? (
         <td>
           <Link to={`/reservations/${reservation.reservation_id}/seat`}>
