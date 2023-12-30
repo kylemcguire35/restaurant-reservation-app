@@ -29,21 +29,23 @@ function ReservationView({ reservation }) {
       <td data-reservation-id-status={reservation.reservation_id}>
         {reservation.status}
       </td>
-      <td>
-        <Link to={`/reservations/${reservation.reservation_id}/edit`}>
-          <button type="submit">Edit</button>
-        </Link>
-      </td>
-      {reservation.status !== "seated" ? (
-        <td>
-          <button
-            onClick={handleCancel}
-            type="submit"
-            data-reservation-id-cancel={reservation.reservation_id}
-          >
-            Cancel
-          </button>
-        </td>
+      {reservation.status === "booked" ? (
+        <>
+          <td>
+            <Link to={`/reservations/${reservation.reservation_id}/edit`}>
+              <button type="submit">Edit</button>
+            </Link>
+          </td>
+          <td>
+            <button
+              onClick={handleCancel}
+              type="submit"
+              data-reservation-id-cancel={reservation.reservation_id}
+            >
+              Cancel
+            </button>
+          </td>
+        </>
       ) : null}
       {reservation.status === "booked" ? (
         <td>
