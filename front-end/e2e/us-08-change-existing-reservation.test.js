@@ -1,5 +1,5 @@
 const puppeteer = require("puppeteer");
-const { setDefaultOptions } = require('expect-puppeteer');
+const { setDefaultOptions } = require("expect-puppeteer");
 const fs = require("fs");
 const fsPromises = fs.promises;
 
@@ -46,7 +46,7 @@ describe("US-08 - Change an existing reservation - E2E", () => {
   describe("/dashboard page", () => {
     beforeEach(async () => {
       await page.goto(dashboardTestPath, {
-        waitUntil: "networkidle0",
+        waitUntil: "networkidle2",
       });
     });
 
@@ -61,14 +61,14 @@ describe("US-08 - Change an existing reservation - E2E", () => {
         await page.waitForSelector(hrefSelector);
 
         await page.screenshot({
-          path:
-            ".screenshots/us-08-dashboard-edit-click-after-no-change-expected.png",
+          path: ".screenshots/us-08-dashboard-edit-click-after-no-change-expected.png",
           fullPage: true,
         });
 
         expect(await page.$(hrefSelector)).toBeDefined();
       });
     });
+
     describe("clicking the reservation cancel button", () => {
       test("then clicking OK removes the reservation", async () => {
         await page.screenshot({
@@ -136,17 +136,22 @@ describe("US-08 - Change an existing reservation - E2E", () => {
   describe("/reservations/:reservation_id/edit page", () => {
     beforeEach(async () => {
       await page.goto(`${baseURL}/dashboard`, {
-        waitUntil: "networkidle0",
+        waitUntil: "networkidle2",
       });
       await page.goto(
         `${baseURL}/reservations/${reservation.reservation_id}/edit`,
         {
-          waitUntil: "networkidle0",
+          waitUntil: "networkidle2",
         }
       );
     });
 
     test("canceling form returns to the previous page", async () => {
+      await page.screenshot({
+        path: ".screenshots/us-08-edit-reservation-cancel-before.png",
+        fullPage: true,
+      });
+
       const [cancelButton] = await page.$x(
         "//button[contains(translate(., 'ACDEFGHIJKLMNOPQRSTUVWXYZ', 'acdefghijklmnopqrstuvwxyz'), 'cancel')]"
       );
@@ -155,14 +160,9 @@ describe("US-08 - Change an existing reservation - E2E", () => {
         throw new Error("button containing cancel not found.");
       }
 
-      await page.screenshot({
-        path: ".screenshots/us-08-edit-reservation-cancel-before.png",
-        fullPage: true,
-      });
-
       await Promise.all([
         cancelButton.click(),
-        page.waitForNavigation({ waitUntil: "networkidle0" }),
+        page.waitForNavigation({ waitUntil: "networkidle2" }),
       ]);
 
       await page.screenshot({
@@ -193,7 +193,7 @@ describe("US-08 - Change an existing reservation - E2E", () => {
 
       await Promise.all([
         submitButton.click(),
-        page.waitForNavigation({ waitUntil: "networkidle0" }),
+        page.waitForNavigation({ waitUntil: "networkidle2" }),
       ]);
 
       expect(page.url()).toContain("/dashboard");

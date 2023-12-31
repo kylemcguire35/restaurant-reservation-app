@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { createReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
+import FormComponent from "../formComponent/FormComponent";
 
 function NewReservation() {
   const history = useHistory();
-
-  const [error, setError] = useState(null);
 
   const initialFormState = {
     first_name: "",
@@ -18,15 +17,7 @@ function NewReservation() {
   };
 
   const [formData, setFormData] = useState({ ...initialFormState });
-
-  const handleChange = ({ target }) => {
-    let value = target.value;
-    if (target.name === "people") value = parseInt(target.value);
-    setFormData({
-      ...formData,
-      [target.name]: value,
-    });
-  };
+  const [error, setError] = useState(null);
 
   const handleCancel = (event) => {
     event.preventDefault();
@@ -75,13 +66,6 @@ function NewReservation() {
     window.location.reload();
   };
 
-  function formatPhoneNumber(input) {
-    const numericInput = input.replace(/\D/g, "");
-    return numericInput.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
-  }
-
-  const formattedPhoneNumber = formatPhoneNumber(formData.mobile_number);
-
   const isNull = () => {
     return Object.values(formData).some(
       (value) => value === null || value === ""
@@ -127,88 +111,23 @@ function NewReservation() {
   }
 
   function isClosed(timeString) {
-    const time = parseInt(timeString.split(":").join(""));
+    let time = timeString.split(":");
+    if (time.length > 2) {
+      time.pop();
+    }
+    time = parseInt(time.join(""));
     return time < 1030 || time > 2130;
   }
 
   return (
-    <form>
+    <div>
       <ErrorAlert error={error} />
-      <label>
-        First Name
-        <input
-          id="first_name"
-          type="text"
-          name="first_name"
-          onChange={handleChange}
-          value={formData.first_name}
-          placeholder="First Name"
-          required
-        />
-      </label>
-      <label>
-        Last Name
-        <input
-          id="last_name"
-          type="text"
-          name="last_name"
-          onChange={handleChange}
-          value={formData.last_name}
-          placeholder="Last Name"
-          required
-        />
-      </label>
-      <label>
-        Mobile Number
-        <input
-          id="mobile_number"
-          type="tel"
-          name="mobile_number"
-          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-          onChange={handleChange}
-          value={formattedPhoneNumber}
-          required
-        />
-      </label>
-      <label>
-        Date of Reservation
-        <input
-          id="reservation_date"
-          type="date"
-          name="reservation_date"
-          onChange={handleChange}
-          value={formData.reservation_date}
-          required
-        />
-      </label>
-      <label>
-        Time of Reservation
-        <input
-          id="reservation_time"
-          type="time"
-          name="reservation_time"
-          onChange={handleChange}
-          value={formData.reservation_time}
-          required
-        />
-      </label>
-      <label>
-        People in the Party
-        <input
-          type="number"
-          id="people"
-          name="people"
-          min="1"
-          onChange={handleChange}
-          value={formData.people}
-          required
-        />
-      </label>
+      <FormComponent formData={formData} setFormData={setFormData} />
       <button type="submit" onClick={handleSubmit}>
         Submit
       </button>
       <button onClick={handleCancel}>Cancel</button>
-    </form>
+    </div>
   );
 }
 

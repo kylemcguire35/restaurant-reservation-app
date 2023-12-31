@@ -84,6 +84,17 @@ export async function createReservation(reservation, signal) {
   return await fetchJson(url, options);
 }
 
+export async function updateReservation(updatedReservation, signal) {
+  const url = `${API_BASE_URL}/reservations/${updatedReservation.reservation_id}`;
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: updatedReservation }),
+    signal,
+  };
+  return await fetchJson(url, options, updatedReservation);
+}
+
 export async function cancelReservation(reservation, signal) {
   const url = `${API_BASE_URL}/reservations/${reservation.reservation_id}/status`;
   const options = {
