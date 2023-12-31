@@ -19,16 +19,50 @@ function ReservationView({ reservation }) {
     }
   };
 
+  /**********
+  Formatting
+  **********/
+  function formatDate(dateString) {
+    let date = dateString.split('-')
+    return `${date[1]}/${date[2]}/${date[0]}`
+  }
+
+  function formatTime(timeString) {
+    const [hours, minutes] = timeString.split(':');
+    const parsedTime = new Date(0, 0, 0, hours, minutes);
+    const options = {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+    };
+    const formattedTime = parsedTime.toLocaleTimeString('en-US', options);
+    return formattedTime;
+  }
+
+  function formatMobileNumber(numberString) {
+    const cleanedNumber = numberString.replace(/\D/g, ''); // Remove non-numeric characters
+    const formattedNumber = `(${cleanedNumber.slice(0, 3)})-${cleanedNumber.slice(3, 6)}-${cleanedNumber.slice(6)}`;
+    return formattedNumber;
+  }
+
+  function formatStatus(status) {
+    return status.charAt(0).toUpperCase() + status.slice(1);
+  }
+
+  const formattedDate = formatDate(reservation.reservation_date)
+  const formattedTime = formatTime(reservation.reservation_time)
+  const formattedNumber = formatMobileNumber(reservation.mobile_number)
+  const formattedStatus = formatStatus(reservation.status)
+  
   return (
     <tr>
-      <td>{reservation.first_name}</td>
-      <td>{reservation.last_name}</td>
-      <td>{reservation.reservation_date}</td>
-      <td>{reservation.reservation_time}</td>
+      <td>{reservation.first_name} {reservation.last_name}</td>
+      <td>{formattedDate}</td>
+      <td>{formattedTime}</td>
       <td>{reservation.people}</td>
-      <td>{reservation.mobile_number}</td>
+      <td>{formattedNumber}</td>
       <td data-reservation-id-status={reservation.reservation_id}>
-        {reservation.status}
+        {formattedStatus}
       </td>
       {reservation.status === "booked" ? (
         <>

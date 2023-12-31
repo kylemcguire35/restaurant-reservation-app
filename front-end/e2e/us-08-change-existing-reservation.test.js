@@ -94,15 +94,11 @@ describe("US-08 - Change an existing reservation - E2E", () => {
         });
 
         await cancelButton.click();
-
-        await page.waitForResponse((response) => {
-          return response.url().includes("/reservations?date=");
-        });
-
-        await page.waitForTimeout(1000);
+        await page.waitForNavigation({ waitUntil: "networkidle2" })
 
         expect(await page.$(cancelButtonSelector)).toBeNull();
       });
+      
       test("then clicking cancel makes no changes", async () => {
         await page.screenshot({
           path: ".screenshots/us-08-dont-cancel-reservation-before.png",

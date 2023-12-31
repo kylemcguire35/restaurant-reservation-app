@@ -6,8 +6,7 @@ function ReservationsList({ reservations }) {
     <table>
       <thead>
         <tr>
-          <th>First Name</th>
-          <th>Last Name</th>
+          <th>Name</th>
           <th>Date</th>
           <th>Time</th>
           <th>Party of</th>
