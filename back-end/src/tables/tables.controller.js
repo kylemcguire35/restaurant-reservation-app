@@ -154,7 +154,6 @@ async function update(req, res) {
   };
   const updatedReservation = {
     ...res.locals.reservation,
-    reservation_id: res.locals.reservation.reservation_id,
     status: "seated",
   };
   const data = await service.update(updatedTable, updatedReservation);
@@ -169,7 +168,6 @@ async function finish(req, res, next) {
   };
   const updatedReservation = {
     ...res.locals.reservation,
-    reservation_id: res.locals.reservation.reservation_id,
     status: "finished",
   };
   const data = await service.update(updatedTable, updatedReservation);

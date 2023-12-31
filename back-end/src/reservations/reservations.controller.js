@@ -134,7 +134,11 @@ function isPastTime(timeString, dateString) {
 }
 
 function isClosed(timeString) {
-  const time = parseInt(timeString.split(":").join(""));
+  let time = timeString.split(":");
+  if (time.length > 2) {
+    time.pop();
+  }
+  time = parseInt(time.join(""));
   return time < 1030 || time > 2130;
 }
 
