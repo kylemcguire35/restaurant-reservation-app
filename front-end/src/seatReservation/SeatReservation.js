@@ -129,30 +129,40 @@ function SeatReservation() {
 
   return (
     <div>
+      <h3>{`Seat Reservation: Party of ${reservation.people}`}</h3>
       <ErrorAlert error={reservationError} />
       <ErrorAlert error={tablesError} />
       <ErrorAlert error={error} />
-      <h3>{`Seat Reservation: Party of ${reservation.people}`}</h3>
       <form>
+        <label className="form-label">Select Table </label>
         <select
+          className="form-control"
           id="table_id"
           name="table_id"
           onChange={handleChange}
           value={formData.table_id}
           required
         >
-          <option value="">Select Table</option>
+          <option value="">Table Name - Capacity</option>
           {tables.map((table) => (
             <option key={table.table_id} value={table.table_id}>
               {table.table_name} - {table.capacity}
             </option>
           ))}
         </select>
-        <button type="submit" onClick={handleSubmit}>
+      </form>
+      <div className="btn-group">
+        <button
+          className="btn btn-warning"
+          type="submit"
+          onClick={handleSubmit}
+        >
           Submit
         </button>
-        <button onClick={handleCancel}>Cancel</button>
-      </form>
+        <button className="btn btn-outline-dark" onClick={handleCancel}>
+          Cancel
+        </button>
+      </div>
     </div>
   );
 }

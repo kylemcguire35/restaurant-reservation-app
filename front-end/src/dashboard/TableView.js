@@ -26,7 +26,7 @@ function TableView({ table }) {
         {table.reservation_id === null ? "Free" : "Occupied"}
       </td>
       {table.reservation_id !== null ? (
-        <button data-table-id-finish={table.table_id} onClick={handleFinish}>
+        <button className="btn btn-warning" data-table-id-finish={table.table_id} onClick={handleFinish}>
           Finish
         </button>
       ) : null}

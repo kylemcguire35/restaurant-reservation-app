@@ -3,12 +3,13 @@ import TableView from "./TableView";
 
 function TablesList({ tables }) {
   return (
-    <table>
+    <table className="table">
       <thead>
         <tr>
           <th>Table Name</th>
           <th>Capacity</th>
           <th>Status</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>

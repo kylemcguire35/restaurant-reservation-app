@@ -73,11 +73,13 @@ function NewTable() {
 
   return (
     <div>
+      <h3>Create Table</h3>
       <ErrorAlert error={error} />
       <form>
-        <label>
+        <label className="form-label">
           Table Name
           <input
+            className="form-control"
             id="table_name"
             type="text"
             name="table_name"
@@ -88,23 +90,33 @@ function NewTable() {
             required
           />
         </label>
-        <label>
+        <label className="form-label">
           Capacity
           <input
+            className="form-control"
             type="number"
             id="capacity"
             name="capacity"
             min="1"
             onChange={handleChange}
             value={formData.capacity}
+            placeholder="Capacity"
             required
           />
         </label>
-        <button type="submit" onClick={handleSubmit}>
+      </form>
+      <div>
+        <button
+          className="btn btn-warning"
+          type="submit"
+          onClick={handleSubmit}
+        >
           Submit
         </button>
-        <button onClick={handleCancel}>Cancel</button>
-      </form>
+        <button className="btn btn-outline-dark" onClick={handleCancel}>
+          Cancel
+        </button>
+      </div>
     </div>
   );
 }

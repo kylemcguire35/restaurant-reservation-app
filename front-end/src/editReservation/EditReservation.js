@@ -158,13 +158,22 @@ function EditReservation() {
 
   return (
     <div>
+      <h3>Edit Reservation</h3>
       <ErrorAlert error={error} />
       <ErrorAlert error={reservationError} />
       <FormComponent formData={formData} setFormData={setFormData} />
-      <button type="submit" onClick={handleSubmit}>
-        Submit
-      </button>
-      <button onClick={handleCancel}>Cancel</button>
+      <div className="btn-group">
+        <button
+          className="btn btn-warning"
+          type="submit"
+          onClick={handleSubmit}
+        >
+          Submit
+        </button>
+        <button className="btn btn-outline-dark" onClick={handleCancel}>
+          Cancel
+        </button>
+      </div>
     </div>
   );
 }

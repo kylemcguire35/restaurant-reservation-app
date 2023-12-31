@@ -44,21 +44,41 @@ function Dashboard({ date }) {
     return () => abortController.abort();
   }
 
+  /**********
+  Formatting
+  **********/
+  function formatDate(dateString) {
+    let date = dateString.split("-");
+    return `${date[1]}/${date[2]}/${date[0]}`;
+  }
+
+  const formattedDate = formatDate(date)
+
   return (
     <div>
       <h1>Dashboard</h1>
       <div>
-        <button onClick={() => history.push(`/dashboard?date=${next(date)}`)}>
-          Next
-        </button>
-        <button
-          onClick={() => history.push(`/dashboard?date=${previous(date)}`)}
-        >
-          Previous
-        </button>
-        <button onClick={() => history.push(`/dashboard?date=${today()}`)}>
-          Today
-        </button>
+        <h4>{`Select Date: ${formattedDate}`}</h4>
+        <div className="btn-group">
+          <button
+            className="btn btn-outline-dark"
+            onClick={() => history.push(`/dashboard?date=${previous(date)}`)}
+          >
+            Previous
+          </button>
+          <button
+            className="btn btn-outline-dark"
+            onClick={() => history.push(`/dashboard?date=${today()}`)}
+          >
+            Today
+          </button>
+          <button
+            className="btn btn-outline-dark"
+            onClick={() => history.push(`/dashboard?date=${next(date)}`)}
+          >
+            Next
+          </button>
+        </div>
       </div>
       <div>
         <h4>Reservations</h4>

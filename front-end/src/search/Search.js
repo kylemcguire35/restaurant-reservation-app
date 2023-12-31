@@ -55,24 +55,27 @@ function Search() {
 
   return (
     <div>
+      <h3>Search for Reservations</h3>
+      <ErrorAlert error={reservationsError} />
       <form>
-        <label>
-          Mobile Number
+        <label className="form-label">
+          Search by Mobile Number
           <input
+            className="form-control"
             id="mobile_number"
             type="tel"
             name="mobile_number"
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             onChange={handleChange}
             value={formattedPhoneNumber}
+            placeholder="Mobile Number"
             required
           />
         </label>
-        <button type="submit" onClick={handleFind}>
-          Find
-        </button>
       </form>
-      <ErrorAlert error={reservationsError} />
+      <button className="btn btn-warning" type="submit" onClick={handleFind}>
+        Find
+      </button>
       {reservations.length > 0 ? (
         <ReservationsList reservations={reservations} />
       ) : (

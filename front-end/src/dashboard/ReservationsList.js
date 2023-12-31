@@ -3,7 +3,7 @@ import ReservationView from "./ReservationView";
 
 function ReservationsList({ reservations }) {
   return (
-    <table>
+    <table className="table">
       <thead>
         <tr>
           <th>Name</th>
@@ -12,6 +12,7 @@ function ReservationsList({ reservations }) {
           <th>Party of</th>
           <th>Phone Number</th>
           <th>Status</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>

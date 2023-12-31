@@ -137,12 +137,15 @@ function NewReservation() {
 
   return (
     <div>
+      <h3>Create Reservation</h3>
       <ErrorAlert error={error} />
       <FormComponent formData={formData} setFormData={setFormData} />
-      <button type="submit" onClick={handleSubmit}>
-        Submit
-      </button>
-      <button onClick={handleCancel}>Cancel</button>
+      <div className="btn-group">
+        <button className="btn btn-warning" type="submit" onClick={handleSubmit}>
+          Submit
+        </button>
+        <button className="btn btn-outline-dark" onClick={handleCancel}>Cancel</button>
+      </div>
     </div>
   );
 }
