@@ -132,6 +132,7 @@ function SeatReservation() {
       <ErrorAlert error={reservationError} />
       <ErrorAlert error={tablesError} />
       <ErrorAlert error={error} />
+      <h3>{`Seat Reservation: Party of ${reservation.people}`}</h3>
       <form>
         <select
           id="table_id"
