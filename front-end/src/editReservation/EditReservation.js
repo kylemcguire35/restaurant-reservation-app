@@ -157,7 +157,7 @@ function EditReservation() {
   }
 
   return (
-    <div>
+    <div className="container d-flex flex-column align-items-center">
       <h3>Edit Reservation</h3>
       <ErrorAlert error={error} />
       <ErrorAlert error={reservationError} />

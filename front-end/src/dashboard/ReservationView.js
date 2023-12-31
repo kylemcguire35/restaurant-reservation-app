@@ -90,7 +90,7 @@ function ReservationView({ reservation }) {
             Cancel
           </button>
         </div>
-      ) : null}
+      ) : (<div></div>)}
     </tr>
   );
 }

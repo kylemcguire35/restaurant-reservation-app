@@ -52,13 +52,13 @@ function Dashboard({ date }) {
     return `${date[1]}/${date[2]}/${date[0]}`;
   }
 
-  const formattedDate = formatDate(date)
+  const formattedDate = formatDate(date);
 
   return (
-    <div>
+    <div className="container d-flex flex-column align-items-center">
       <h1>Dashboard</h1>
-      <div>
-        <h4>{`Select Date: ${formattedDate}`}</h4>
+      <div className="py-3">
+        <h5>Select Date: {formattedDate}</h5>
         <div className="btn-group">
           <button
             className="btn btn-outline-dark"
@@ -80,23 +80,25 @@ function Dashboard({ date }) {
           </button>
         </div>
       </div>
-      <div>
-        <h4>Reservations</h4>
-        <ErrorAlert error={reservationsError} />
-        {reservations.length > 0 ? (
-          <ReservationsList reservations={reservations} />
-        ) : (
-          <p>No reservations to be displayed.</p>
-        )}
-      </div>
-      <div>
-        <h4>Tables</h4>
-        <ErrorAlert error={tablesError} />
-        {tables.length > 0 ? (
-          <TablesList tables={tables} />
-        ) : (
-          <p>No tables to be displayed</p>
-        )}
+      <div className="container text-center">
+        <div className="py-3">
+          <h4>Reservations</h4>
+          <ErrorAlert error={reservationsError} />
+          {reservations.length > 0 ? (
+            <ReservationsList reservations={reservations} />
+          ) : (
+            <p>No reservations to be displayed.</p>
+          )}
+        </div>
+        <div className="py-3">
+          <h4>Tables</h4>
+          <ErrorAlert error={tablesError} />
+          {tables.length > 0 ? (
+            <TablesList tables={tables} />
+          ) : (
+            <p>No tables to be displayed</p>
+          )}
+        </div>
       </div>
     </div>
   );

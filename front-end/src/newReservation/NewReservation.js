@@ -136,15 +136,21 @@ function NewReservation() {
   }
 
   return (
-    <div>
+    <div className="container d-flex flex-column align-items-center">
       <h3>Create Reservation</h3>
       <ErrorAlert error={error} />
       <FormComponent formData={formData} setFormData={setFormData} />
       <div className="btn-group">
-        <button className="btn btn-warning" type="submit" onClick={handleSubmit}>
+        <button
+          className="btn btn-warning"
+          type="submit"
+          onClick={handleSubmit}
+        >
           Submit
         </button>
-        <button className="btn btn-outline-dark" onClick={handleCancel}>Cancel</button>
+        <button className="btn btn-outline-dark" onClick={handleCancel}>
+          Cancel
+        </button>
       </div>
     </div>
   );

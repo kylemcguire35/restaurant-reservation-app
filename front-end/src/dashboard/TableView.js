@@ -29,7 +29,7 @@ function TableView({ table }) {
         <button className="btn btn-warning" data-table-id-finish={table.table_id} onClick={handleFinish}>
           Finish
         </button>
-      ) : null}
+      ) : (<div></div>)}
     </tr>
   );
 }

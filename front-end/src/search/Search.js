@@ -54,33 +54,33 @@ function Search() {
   };
 
   return (
-    <div>
+    <div className="container d-flex flex-column align-items-center">
       <h3>Search for Reservations</h3>
       <ErrorAlert error={reservationsError} />
-      <form>
-        <label className="form-label">
-          Search by Mobile Number
-          <input
-            className="form-control"
-            id="mobile_number"
-            type="tel"
-            name="mobile_number"
-            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-            onChange={handleChange}
-            value={formattedPhoneNumber}
-            placeholder="Mobile Number"
-            required
-          />
-        </label>
+      <form className="py-3 text-center">
+        <label className="form-label">Search by Mobile Number</label>
+        <input
+          className="form-control"
+          id="mobile_number"
+          type="tel"
+          name="mobile_number"
+          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+          onChange={handleChange}
+          value={formattedPhoneNumber}
+          placeholder="Mobile Number"
+          required
+        />
       </form>
       <button className="btn btn-warning" type="submit" onClick={handleFind}>
         Find
       </button>
-      {reservations.length > 0 ? (
-        <ReservationsList reservations={reservations} />
-      ) : (
-        <p>No reservations found</p>
-      )}
+      <div className="py-3">
+        {reservations.length > 0 ? (
+          <ReservationsList reservations={reservations} />
+        ) : (
+          <p>No reservations found</p>
+        )}
+      </div>
     </div>
   );
 }

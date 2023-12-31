@@ -128,12 +128,12 @@ function SeatReservation() {
   }
 
   return (
-    <div>
+    <div className="container d-flex flex-column align-items-center">
       <h3>{`Seat Reservation: Party of ${reservation.people}`}</h3>
       <ErrorAlert error={reservationError} />
       <ErrorAlert error={tablesError} />
       <ErrorAlert error={error} />
-      <form>
+      <form className="py-3 text-center">
         <label className="form-label">
           Select Table
           <select

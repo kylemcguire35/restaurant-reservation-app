@@ -22,7 +22,8 @@ function Routes() {
   const query = useQuery();
   const date = query.get("date");
   return (
-    <Switch>
+    <div className="container d-flex mt-3">
+      <Switch>
       <Route exact={true} path="/">
         <Redirect to={"/dashboard"} />
       </Route>
@@ -51,6 +52,8 @@ function Routes() {
         <NotFound />
       </Route>
     </Switch>
+    </div>
+    
   );
 }
 

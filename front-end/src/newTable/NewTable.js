@@ -72,38 +72,40 @@ function NewTable() {
   }
 
   return (
-    <div>
+    <div className="container d-flex flex-column align-items-center">
       <h3>Create Table</h3>
       <ErrorAlert error={error} />
-      <form>
-        <label className="form-label">
-          Table Name
-          <input
-            className="form-control"
-            id="table_name"
-            type="text"
-            name="table_name"
-            onChange={handleChange}
-            value={formData.table_name}
-            placeholder="Table Name"
-            minLength={2}
-            required
-          />
-        </label>
-        <label className="form-label">
-          Capacity
-          <input
-            className="form-control"
-            type="number"
-            id="capacity"
-            name="capacity"
-            min="1"
-            onChange={handleChange}
-            value={formData.capacity}
-            placeholder="Capacity"
-            required
-          />
-        </label>
+      <form className="py-3">
+        <div className="form-row">
+          <div className="col-sm-12 col-md-6">
+            <label className="form-label">Table Name</label>
+            <input
+              className="form-control"
+              id="table_name"
+              type="text"
+              name="table_name"
+              onChange={handleChange}
+              value={formData.table_name}
+              placeholder="Table Name"
+              minLength={2}
+              required
+            />
+          </div>
+          <div className="col-sm-12 col-md-6">
+            <label className="form-label">Capacity</label>
+            <input
+              className="form-control"
+              type="number"
+              id="capacity"
+              name="capacity"
+              min="1"
+              onChange={handleChange}
+              value={formData.capacity}
+              placeholder="Capacity"
+              required
+            />
+          </div>
+        </div>
       </form>
       <div>
         <button
