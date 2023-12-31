@@ -9,8 +9,8 @@ function ReservationsList({ reservations }) {
           <th>Name</th>
           <th>Date</th>
           <th>Time</th>
-          <th>Party of</th>
-          <th>Phone Number</th>
+          <th>Party of ___</th>
+          <th>Mobile Number</th>
           <th>Status</th>
           <th>Actions</th>
         </tr>

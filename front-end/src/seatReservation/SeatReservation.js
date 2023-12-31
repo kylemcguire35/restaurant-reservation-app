@@ -134,22 +134,24 @@ function SeatReservation() {
       <ErrorAlert error={tablesError} />
       <ErrorAlert error={error} />
       <form>
-        <label className="form-label">Select Table </label>
-        <select
-          className="form-control"
-          id="table_id"
-          name="table_id"
-          onChange={handleChange}
-          value={formData.table_id}
-          required
-        >
-          <option value="">Table Name - Capacity</option>
-          {tables.map((table) => (
-            <option key={table.table_id} value={table.table_id}>
-              {table.table_name} - {table.capacity}
-            </option>
-          ))}
-        </select>
+        <label className="form-label">
+          Select Table
+          <select
+            className="form-control"
+            id="table_id"
+            name="table_id"
+            onChange={handleChange}
+            value={formData.table_id}
+            required
+          >
+            <option value="">Table Name - Capacity</option>
+            {tables.map((table) => (
+              <option key={table.table_id} value={table.table_id}>
+                {table.table_name} - {table.capacity}
+              </option>
+            ))}
+          </select>
+        </label>
       </form>
       <div className="btn-group">
         <button
