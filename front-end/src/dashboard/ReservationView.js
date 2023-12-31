@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import { cancelReservation } from "../utils/api";
 
 function ReservationView({ reservation }) {
+  async function cancelReservationFromAPI() {
+    cancelReservation({ ...reservation, status: "cancelled" });
+  }
+
   const handleCancel = (event) => {
     event.preventDefault();
     if (
@@ -13,10 +17,6 @@ function ReservationView({ reservation }) {
       cancelReservationFromAPI();
     }
   };
-
-  async function cancelReservationFromAPI() {
-    cancelReservation({ ...reservation, status: "cancelled" });
-  }
 
   return (
     <tr>

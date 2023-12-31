@@ -1,15 +1,6 @@
 import React from "react";
 
 function FormComponent({ formData, setFormData }) {
-  const handleChange = ({ target }) => {
-    let value = target.value;
-    if (target.name === "people") value = parseInt(target.value);
-    setFormData({
-      ...formData,
-      [target.name]: value,
-    });
-  };
-
   function formatPhoneNumber(input) {
     if (input) {
       const numericInput = input.replace(/\D/g, "");
@@ -18,6 +9,15 @@ function FormComponent({ formData, setFormData }) {
   }
 
   const formattedPhoneNumber = formatPhoneNumber(formData.mobile_number);
+
+  const handleChange = ({ target }) => {
+    let value = target.value;
+    if (target.name === "people") value = parseInt(target.value);
+    setFormData({
+      ...formData,
+      [target.name]: value,
+    });
+  };
 
   return (
     <form>

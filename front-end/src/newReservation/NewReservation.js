@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { createReservation } from "../utils/api";
-import ErrorAlert from "../layout/ErrorAlert";
 import FormComponent from "../formComponent/FormComponent";
+import ErrorAlert from "../layout/ErrorAlert";
+import { createReservation } from "../utils/api";
 
 function NewReservation() {
   const history = useHistory();
@@ -19,6 +19,9 @@ function NewReservation() {
   const [formData, setFormData] = useState({ ...initialFormState });
   const [error, setError] = useState(null);
 
+  /**********
+  Button Handlers
+  **********/
   const handleCancel = (event) => {
     event.preventDefault();
     history.goBack();
@@ -66,12 +69,18 @@ function NewReservation() {
     window.location.reload();
   };
 
+  /**********
+  Properties Middleware
+  **********/
   const isNull = () => {
     return Object.values(formData).some(
       (value) => value === null || value === ""
     );
   };
 
+  /**********
+  Date Middleware
+  **********/
   function isTuesday(dateString) {
     const dateObj = new Date(dateString);
     const day = dateObj.getDay();
@@ -98,6 +107,9 @@ function NewReservation() {
     );
   }
 
+  /**********
+  Time Middleware
+  **********/
   function isPastTime(timeString, dateString) {
     if (isToday(dateString)) {
       const time = parseInt(timeString.split(":").join(""));

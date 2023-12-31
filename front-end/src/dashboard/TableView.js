@@ -14,7 +14,7 @@ function TableView({ table }) {
       )
     ) {
       finishTableFromAPI();
-      window.location.reload()
+      window.location.reload();
     }
   };
 

@@ -40,6 +40,9 @@ function SeatReservation() {
     return () => abortController.abort();
   }
 
+  /**********
+  Buttons Handler
+  **********/
   const handleChange = ({ target }) => {
     let value = target.value;
     if (target.name === "reservation_id") {
@@ -81,9 +84,12 @@ function SeatReservation() {
     history.push(
       `/dashboard?date=${reservation.reservation_date.split("T")[0]}`
     );
-    window.location.reload()
+    window.location.reload();
   };
 
+  /**********
+  Properties Middleware
+  **********/
   function isNull() {
     return (
       Object.values(formData).some(
@@ -92,22 +98,28 @@ function SeatReservation() {
     );
   }
 
+  /**********
+  Capacity Middleware
+  **********/
   function hasSufficientCapacity(tableId) {
     const capacity = findCapacityByID(tableId);
     const people = reservation.people;
     return capacity >= people;
   }
 
-  function isTableOccupied(tableId) {
-    tableId = parseInt(tableId);
-    const table = tables.find((table) => table.table_id === tableId);
-    return table.reservation_id !== null;
-  }
-
   function findCapacityByID(tableId) {
     tableId = parseInt(tableId);
     const table = tables.find((table) => table.table_id === tableId);
     return table.capacity;
+  }
+
+  /**********
+  Status Middleware
+  **********/
+  function isTableOccupied(tableId) {
+    tableId = parseInt(tableId);
+    const table = tables.find((table) => table.table_id === tableId);
+    return table.reservation_id !== null;
   }
 
   return (

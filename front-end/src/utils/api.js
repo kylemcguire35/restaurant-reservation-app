@@ -52,6 +52,9 @@ async function fetchJson(url, options, onCancel) {
   }
 }
 
+/**********
+Reservations
+**********/
 /**
  * Retrieves all existing reservation.
  * @returns {Promise<[reservation]>}
@@ -106,6 +109,9 @@ export async function cancelReservation(reservation, signal) {
   return await fetchJson(url, options);
 }
 
+/**********
+Tables
+**********/
 export async function listTables(signal) {
   const url = `${API_BASE_URL}/tables`;
   return await fetchJson(url, { signal }, []);

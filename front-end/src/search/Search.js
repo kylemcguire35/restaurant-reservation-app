@@ -21,12 +21,22 @@ function Search() {
     return () => abortController.abort();
   }
 
+  /**********
+  Format Phone Number
+  **********/
   function formatPhoneNumber(input) {
     const numericInput = input.replace(/\D/g, "");
     return numericInput.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
   }
 
   const formattedPhoneNumber = formatPhoneNumber(formData.mobile_number);
+
+  /**********
+  Buttons Handler
+  **********/
+  async function listReservationsFromAPI() {
+    await loadDashboard(formData.mobile_number);
+  }
 
   const handleChange = ({ target }) => {
     let value = target.value;
@@ -42,10 +52,6 @@ function Search() {
     setFormData({ ...initialFormState });
     setReservationsError(null);
   };
-
-  async function listReservationsFromAPI() {
-    await loadDashboard(formData.mobile_number);
-  }
 
   return (
     <div>

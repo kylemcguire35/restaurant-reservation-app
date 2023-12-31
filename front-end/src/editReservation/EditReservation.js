@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import ErrorAlert from "../layout/ErrorAlert";
 import FormComponent from "../formComponent/FormComponent";
+import ErrorAlert from "../layout/ErrorAlert";
 import { readReservation, updateReservation } from "../utils/api";
 
 function EditReservation() {
   const history = useHistory();
   const { reservationId } = useParams();
-
   const [reservationError, setReservationError] = useState(null);
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(null);
@@ -37,6 +36,13 @@ function EditReservation() {
       setReservationError(error);
     }
     return () => abortController.abort();
+  }
+
+  /**********
+  Button Handlers
+  **********/
+  async function updateReservationFromAPI() {
+    await updateReservation(formData);
   }
 
   const handleCancel = (event) => {
@@ -85,16 +91,18 @@ function EditReservation() {
     history.push(`/dashboard?date=${formData.reservation_date}`);
   };
 
-  async function updateReservationFromAPI() {
-    await updateReservation(formData);
-  }
-
+  /**********
+  Properties Middleware
+  **********/
   const isNull = () => {
     return Object.values(formData).some(
       (value) => value === null || value === ""
     );
   };
 
+  /**********
+  Date Middleware
+  **********/
   function isTuesday(dateString) {
     const dateObj = new Date(dateString);
     const day = dateObj.getDay();
@@ -121,6 +129,9 @@ function EditReservation() {
     );
   }
 
+  /**********
+  Time Middleware
+  **********/
   function isPastTime(timeString, dateString) {
     if (isToday(dateString)) {
       const time = parseInt(timeString.split(":").join(""));

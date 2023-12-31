@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { listReservations, listTables } from "../utils/api";
-import ErrorAlert from "../layout/ErrorAlert";
-import { next, previous, today } from "../utils/date-time";
 import { useHistory } from "react-router-dom";
 import ReservationsList from "./ReservationsList";
 import TablesList from "./TablesList";
+import ErrorAlert from "../layout/ErrorAlert";
+import { listReservations, listTables } from "../utils/api";
+import { next, previous, today } from "../utils/date-time";
 
 /**
  * Defines the dashboard page.
@@ -14,12 +14,11 @@ import TablesList from "./TablesList";
  */
 
 function Dashboard({ date }) {
+  const history = useHistory();
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
   const [tables, setTables] = useState([]);
   const [tablesError, setTablesError] = useState(null);
-
-  const history = useHistory();
 
   useEffect(() => {
     loadDashboard(date);

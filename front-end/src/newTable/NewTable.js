@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { createTable } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
+import { createTable } from "../utils/api";
 
 function NewTable() {
   const history = useHistory();
@@ -14,6 +14,9 @@ function NewTable() {
   const [formData, setFormData] = useState({ ...initialFormState });
   const [error, setError] = useState(null);
 
+  /**********
+  Button Handlers
+  **********/
   const handleChange = ({ target }) => {
     let value = target.value;
     if (target.name === "capacity") value = parseInt(target.value);
@@ -38,8 +41,7 @@ function NewTable() {
     }
     if (isTooShort(formData.table_name)) {
       setError({
-        message:
-          "Table name must be at least 2 characters long.",
+        message: "Table name must be at least 2 characters long.",
       });
       return;
     }
@@ -49,12 +51,18 @@ function NewTable() {
     history.push("/");
   };
 
+  /**********
+  Properties Middleware
+  **********/
   const isNull = () => {
     return Object.values(formData).some(
       (value) => value === null || value === ""
     );
   };
 
+  /**********
+  Name Middleware
+  **********/
   function isTooShort(name) {
     return name.length < 2;
   }
