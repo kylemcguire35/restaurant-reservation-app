@@ -7,12 +7,14 @@ import { readReservation, updateReservation } from "../utils/api";
 function EditReservation() {
   const history = useHistory();
   const { reservationId } = useParams();
+
   const [reservationError, setReservationError] = useState(null);
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(null);
 
   useEffect(() => {
     loadReservation();
+    // eslint-disable-next-line
   }, []);
 
   async function loadReservation() {
@@ -43,6 +45,8 @@ function EditReservation() {
   **********/
   async function updateReservationFromAPI() {
     await updateReservation(formData);
+    history.push(`/dashboard?date=${formData.reservation_date}`);
+    window.location.reload();
   }
 
   const handleCancel = (event) => {
@@ -88,7 +92,6 @@ function EditReservation() {
     updateReservationFromAPI();
     setFormData({});
     setError(null);
-    history.push(`/dashboard?date=${formData.reservation_date}`);
   };
 
   /**********

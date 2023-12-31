@@ -22,6 +22,7 @@ function SeatReservation() {
   useEffect(() => {
     loadTables();
     loadReservation();
+    // eslint-disable-next-line
   }, []);
 
   function loadTables() {
@@ -43,6 +44,14 @@ function SeatReservation() {
   /**********
   Buttons Handler
   **********/
+  async function updateFromAPI() {
+    await updateTable(formData);
+    history.push(
+      `/dashboard?date=${reservation.reservation_date.split("T")[0]}`
+    );
+    window.location.reload();
+  }
+
   const handleChange = ({ target }) => {
     let value = target.value;
     if (target.name === "reservation_id") {
@@ -79,12 +88,8 @@ function SeatReservation() {
       });
       return;
     }
-    updateTable(formData);
+    updateFromAPI();
     setError(null);
-    history.push(
-      `/dashboard?date=${reservation.reservation_date.split("T")[0]}`
-    );
-    window.location.reload();
   };
 
   /**********

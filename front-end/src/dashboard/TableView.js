@@ -4,6 +4,7 @@ import { finishTable } from "../utils/api";
 function TableView({ table }) {
   async function finishTableFromAPI() {
     await finishTable(table);
+    window.location.reload();
   }
 
   const handleFinish = (event) => {
@@ -14,7 +15,6 @@ function TableView({ table }) {
       )
     ) {
       finishTableFromAPI();
-      window.location.reload();
     }
   };
 

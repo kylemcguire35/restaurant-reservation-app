@@ -4,12 +4,16 @@ import TableView from "./TableView";
 function TablesList({ tables }) {
   return (
     <table>
-      <th>Table Name</th>
-      <th>Capacity</th>
-      <th>Status</th>
+      <thead>
+        <tr>
+          <th>Table Name</th>
+          <th>Capacity</th>
+          <th>Status</th>
+        </tr>
+      </thead>
       <tbody>
-        {tables.map((table) => (
-          <TableView table={table} />
+        {tables.map((table, index) => (
+          <TableView table={table} key={index} />
         ))}
       </tbody>
     </table>

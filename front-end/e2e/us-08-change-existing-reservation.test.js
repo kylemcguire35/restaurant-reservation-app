@@ -198,6 +198,8 @@ describe("US-08 - Change an existing reservation - E2E", () => {
 
       expect(page.url()).toContain("/dashboard");
 
+      await page.waitForTimeout(1000);
+
       await page.screenshot({
         path: ".screenshots/us-08-edit-reservation-submit-after.png",
         fullPage: true,

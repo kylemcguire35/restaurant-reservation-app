@@ -186,8 +186,10 @@ describe("US-04 - Seat reservation - E2E", () => {
 
       await Promise.all([
         page.click("[type=submit]"),
-        page.waitForNavigation({ waitUntil: "networkidle0" }),
+        page.waitForNavigation({ waitUntil: "networkidle2" }),
       ]);
+
+      await page.waitForTimeout(1000);
 
       await page.screenshot({
         path: ".screenshots/us-04-seat-reservation-submit-after.png",

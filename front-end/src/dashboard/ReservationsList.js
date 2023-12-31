@@ -4,16 +4,20 @@ import ReservationView from "./ReservationView";
 function ReservationsList({ reservations }) {
   return (
     <table>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Date</th>
-      <th>Time</th>
-      <th>Party of</th>
-      <th>Phone Number</th>
-      <th>Status</th>
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Party of</th>
+          <th>Phone Number</th>
+          <th>Status</th>
+        </tr>
+      </thead>
       <tbody>
-        {reservations.map((reservation) => (
-          <ReservationView reservation={reservation} />
+        {reservations.map((reservation, index) => (
+          <ReservationView reservation={reservation} key={index}/>
         ))}
       </tbody>
     </table>

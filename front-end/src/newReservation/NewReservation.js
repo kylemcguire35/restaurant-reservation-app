@@ -22,6 +22,12 @@ function NewReservation() {
   /**********
   Button Handlers
   **********/
+  async function createReservationFromAPI() {
+    await createReservation(formData);
+    history.push(`/dashboard?date=${formData.reservation_date}`);
+    window.location.reload();
+  }
+
   const handleCancel = (event) => {
     event.preventDefault();
     history.goBack();
@@ -62,11 +68,9 @@ function NewReservation() {
       });
       return;
     }
-    createReservation(formData);
+    createReservationFromAPI();
     setFormData({ ...initialFormState });
     setError(null);
-    history.push(`/dashboard?date=${formData.reservation_date}`);
-    window.location.reload();
   };
 
   /**********

@@ -21,14 +21,14 @@ function Dashboard({ date }) {
   const [tablesError, setTablesError] = useState(null);
 
   useEffect(() => {
-    loadDashboard(date);
+    loadReservations(date);
   }, [date, reservations]);
 
   useEffect(() => {
     loadTables();
   }, [tables]);
 
-  function loadDashboard(date) {
+  function loadReservations(date) {
     const abortController = new AbortController();
     setReservationsError(null);
     listReservations({ date }, abortController.signal)
@@ -45,7 +45,7 @@ function Dashboard({ date }) {
   }
 
   return (
-    <main>
+    <div>
       <h1>Dashboard</h1>
       <div>
         <button onClick={() => history.push(`/dashboard?date=${next(date)}`)}>
@@ -60,17 +60,25 @@ function Dashboard({ date }) {
           Today
         </button>
       </div>
-      <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for date</h4>
+      <div>
+        <h4>Reservations</h4>
+        <ErrorAlert error={reservationsError} />
+        {reservations.length > 0 ? (
+          <ReservationsList reservations={reservations} />
+        ) : (
+          <p>No reservations to be displayed.</p>
+        )}
       </div>
-      <ErrorAlert error={reservationsError} />
-      <ReservationsList reservations={reservations} />
-      <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Tables</h4>
+      <div>
+        <h4>Tables</h4>
+        <ErrorAlert error={tablesError} />
+        {tables.length > 0 ? (
+          <TablesList tables={tables} />
+        ) : (
+          <p>No tables to be displayed</p>
+        )}
       </div>
-      <ErrorAlert error={tablesError} />
-      <TablesList tables={tables} />
-    </main>
+    </div>
   );
 }
 

@@ -17,6 +17,11 @@ function NewTable() {
   /**********
   Button Handlers
   **********/
+  async function createTableFromAPI() {
+    await createTable(formData);
+    history.push("/");
+  }
+
   const handleChange = ({ target }) => {
     let value = target.value;
     if (target.name === "capacity") value = parseInt(target.value);
@@ -45,10 +50,9 @@ function NewTable() {
       });
       return;
     }
-    createTable(formData);
+    createTableFromAPI();
     setFormData({ ...initialFormState });
     setError(null);
-    history.push("/");
   };
 
   /**********
