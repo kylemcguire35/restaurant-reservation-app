@@ -16,8 +16,8 @@ function ReservationsList({ reservations }) {
         </tr>
       </thead>
       <tbody>
-        {reservations.map((reservation, index) => (
-          <ReservationView reservation={reservation} key={index}/>
+        {reservations.map((reservation) => (
+          <ReservationView reservation={reservation} key={reservation.reservation_id}/>
         ))}
       </tbody>
     </table>

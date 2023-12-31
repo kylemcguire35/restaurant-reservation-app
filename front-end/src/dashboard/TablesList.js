@@ -13,8 +13,8 @@ function TablesList({ tables }) {
         </tr>
       </thead>
       <tbody>
-        {tables.map((table, index) => (
-          <TableView table={table} key={index} />
+        {tables.map((table) => (
+          <TableView table={table} key={table.table_id} />
         ))}
       </tbody>
     </table>
