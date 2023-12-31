@@ -22,38 +22,37 @@ function Routes() {
   const query = useQuery();
   const date = query.get("date");
   return (
-    <div className="container d-flex mt-3">
+    <div className="container mt-3">
       <Switch>
-      <Route exact={true} path="/">
-        <Redirect to={"/dashboard"} />
-      </Route>
-      <Route exact={true} path="/reservations">
-        <Redirect to={"/dashboard"} />
-      </Route>
-      <Route path="/dashboard">
-        <Dashboard date={date || today()} />
-      </Route>
-      <Route path="/reservations/new">
-        <NewReservation />
-      </Route>
-      <Route path="/reservations/:reservationId/edit">
-        <EditReservation />
-      </Route>
-      <Route path="/reservations/:reservationId/seat">
-        <SeatReservation />
-      </Route>
-      <Route path="/tables/new">
-        <NewTable />
-      </Route>
-      <Route path="/search">
-        <Search />
-      </Route>
-      <Route>
-        <NotFound />
-      </Route>
-    </Switch>
+        <Route exact={true} path="/">
+          <Redirect to={"/dashboard"} />
+        </Route>
+        <Route exact={true} path="/reservations">
+          <Redirect to={"/dashboard"} />
+        </Route>
+        <Route path="/dashboard">
+          <Dashboard date={date || today()} />
+        </Route>
+        <Route path="/reservations/new">
+          <NewReservation />
+        </Route>
+        <Route path="/reservations/:reservationId/edit">
+          <EditReservation />
+        </Route>
+        <Route path="/reservations/:reservationId/seat">
+          <SeatReservation />
+        </Route>
+        <Route path="/tables/new">
+          <NewTable />
+        </Route>
+        <Route path="/search">
+          <Search />
+        </Route>
+        <Route>
+          <NotFound />
+        </Route>
+      </Switch>
     </div>
-    
   );
 }
 

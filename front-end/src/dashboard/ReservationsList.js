@@ -9,7 +9,7 @@ function ReservationsList({ reservations }) {
           <tr>
             <th>Name</th>
             <th>Date</th>
-            <th>Time</th> 
+            <th>Time</th>
             <th>Party of</th>
             <th>Mobile Number</th>
             <th>Status</th>
