@@ -34,4 +34,10 @@ async function update(updatedTable, updatedReservation) {
     .catch(trx.rollback);
 }
 
-module.exports = { create, listByName, read, readTable, update };
+module.exports = {
+  listByName,
+  read,
+  readTable,
+  create,
+  update,
+};

@@ -35,4 +35,10 @@ function update(updatedReservation) {
     .then((updatedRecord) => updatedRecord[0]);
 }
 
-module.exports = { listByDate, create, read, update, search };
+module.exports = {
+  listByDate,
+  search,
+  read,
+  create,
+  update,
+};

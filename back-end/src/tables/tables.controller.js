@@ -132,13 +132,11 @@ function isAlreadySeated(req, res, next) {
 /********** 
 Functions
 **********/
-//List Function
 async function list(req, res) {
   const data = await service.listByName();
   res.json({ data });
 }
 
-//Create Function
 async function create(req, res) {
   const newTable = await service.create(req.body.data);
   res.status(201).json({
@@ -146,7 +144,6 @@ async function create(req, res) {
   });
 }
 
-//Update Function
 async function update(req, res) {
   const updatedTable = {
     ...req.body.data,
@@ -160,7 +157,6 @@ async function update(req, res) {
   res.json({ data });
 }
 
-//Finish Function
 async function finish(req, res, next) {
   const updatedTable = {
     ...res.locals.table,
