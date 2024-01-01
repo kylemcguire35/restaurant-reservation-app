@@ -34,9 +34,8 @@ async function reservationExists(req, res, next) {
 Date Middleware
 **********/
 function isTuesday(dateString) {
-  const dateObj = new Date(dateString);
-  const day = dateObj.getDay();
-  return day === 1;
+  const dateObj = moment.tz(dateString, 'YYYY-MM-DD', 'UTC');
+  return dateObj.day() === 2;
 }
 
 function isPastDate(dateString) {
