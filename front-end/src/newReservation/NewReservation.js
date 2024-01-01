@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import FormComponent from "../formComponent/FormComponent";
 import ErrorAlert from "../layout/ErrorAlert";
 import { createReservation } from "../utils/api";
+import moment from "moment-timezone";
 
 function NewReservation() {
   const history = useHistory();
@@ -86,29 +87,20 @@ function NewReservation() {
   Date Middleware
   **********/
   function isTuesday(dateString) {
-    const dateObj = new Date(dateString);
-    const day = dateObj.getDay();
-    return day === 1;
+    const dateObj = moment.tz(dateString, "YYYY-MM-DD", "UTC");
+    return dateObj.day() === 2;
   }
 
   function isPastDate(dateString) {
-    const dateObj = new Date(dateString + "T00:00:00");
-    const today = new Date();
-    // Compare the dates, ignoring the time component
-    today.setHours(0, 0, 0, 0);
-    return dateObj < today;
+    const dateObj = moment.tz(dateString, "YYYY-MM-DD", "UTC");
+    const today = moment().tz("UTC");
+    return dateObj.isBefore(today, "day");
   }
 
   function isToday(dateString) {
-    const dateObj = new Date(dateString + "T00:00:00");
-    const today = new Date();
-    // Compare the dates, ignoring the time component
-    today.setHours(0, 0, 0, 0);
-    return (
-      dateObj.getFullYear() === today.getFullYear() &&
-      dateObj.getMonth() === today.getMonth() &&
-      dateObj.getDate() === today.getDate()
-    );
+    const dateObj = moment.tz(dateString + "T00:00:00", "UTC");
+    const today = moment().tz("UTC");
+    return dateObj.isSame(today, "day");
   }
 
   /**********
