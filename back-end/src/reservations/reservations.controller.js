@@ -1,5 +1,6 @@
 const service = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
+const moment = require("moment-timezone");
 
 /********** 
 Properties Middleware
@@ -39,11 +40,9 @@ function isTuesday(dateString) {
 }
 
 function isPastDate(dateString) {
-  const dateObj = new Date(dateString + "T00:00:00");
-  const today = new Date();
-  // Compare the dates, ignoring the time component
-  today.setHours(0, 0, 0, 0);
-  return dateObj < today;
+  const dateObj = moment.tz(dateString, "YYYY-MM-DD", "UTC");
+  const today = moment().tz("UTC");
+  return dateObj.isBefore(today, "day");
 }
 
 function isValidDate(dateString) {
@@ -104,15 +103,9 @@ function isValidTime(timeString) {
 }
 
 function isToday(dateString) {
-  const dateObj = new Date(dateString + "T00:00:00");
-  const today = new Date();
-  // Compare the dates, ignoring the time component
-  today.setHours(0, 0, 0, 0);
-  return (
-    dateObj.getFullYear() === today.getFullYear() &&
-    dateObj.getMonth() === today.getMonth() &&
-    dateObj.getDate() === today.getDate()
-  );
+  const dateObj = moment.tz(dateString + "T00:00:00", "UTC");
+  const today = moment().tz("UTC");
+  return dateObj.isSame(today, "day");
 }
 
 function isPastTime(timeString, dateString) {
