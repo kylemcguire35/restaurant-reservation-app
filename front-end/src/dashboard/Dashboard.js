@@ -28,19 +28,27 @@ function Dashboard({ date }) {
     loadTables();
   }, [tables]);
 
-  function loadReservations(date) {
+  async function loadReservations(date) {
     const abortController = new AbortController();
     setReservationsError(null);
-    listReservations({ date }, abortController.signal)
-      .then(setReservations)
-      .catch(setReservationsError);
+    try {
+      const response = await listReservations({ date }, abortController.signal);
+      setReservations(response);
+    } catch (error) {
+      setReservationsError(error);
+    }
     return () => abortController.abort();
   }
 
-  function loadTables() {
+  async function loadTables() {
     const abortController = new AbortController();
     setTablesError(null);
-    listTables(abortController.signal).then(setTables).catch(setTablesError);
+    try {
+      const response = await listTables(abortController.signal);
+      setTables(response);
+    } catch (error) {
+      setTablesError(error);
+    }
     return () => abortController.abort();
   }
 

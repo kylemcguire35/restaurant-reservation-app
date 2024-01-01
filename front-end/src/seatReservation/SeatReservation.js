@@ -25,19 +25,30 @@ function SeatReservation() {
     // eslint-disable-next-line
   }, []);
 
-  function loadTables() {
+  async function loadTables() {
     const abortController = new AbortController();
     setTablesError(null);
-    listTables(abortController.signal).then(setTables).catch(setTablesError);
+    try {
+      const response = await listTables(abortController.signal);
+      setTables(response);
+    } catch (error) {
+      setTablesError(error);
+    }
     return () => abortController.abort();
   }
 
-  function loadReservation() {
+  async function loadReservation() {
     const abortController = new AbortController();
     setReservationError(null);
-    readReservation(reservationId, abortController.signal)
-      .then(setReservation)
-      .catch(setReservationError);
+    try {
+      const response = await readReservation(
+        reservationId,
+        abortController.signal
+      );
+      setReservation(response);
+    } catch (error) {
+      setReservationError(error);
+    }
     return () => abortController.abort();
   }
 

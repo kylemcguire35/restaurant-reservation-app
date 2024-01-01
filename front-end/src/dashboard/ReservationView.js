@@ -69,32 +69,33 @@ function ReservationView({ reservation }) {
       <td data-reservation-id-status={reservation.reservation_id}>
         {formattedStatus}
       </td>
-      {reservation.status === "booked" ? (
-        <div className="btn-group">
-          <Link to={`/reservations/${reservation.reservation_id}/seat`}>
-            <button type="submit" className="btn btn-warning">
-              Seat
+      <td>
+        {reservation.status === "booked" ? (
+          <div className="btn-group">
+            <Link to={`/reservations/${reservation.reservation_id}/seat`}>
+              <button type="submit" className="btn btn-warning">
+                Seat
+              </button>
+            </Link>
+            <Link to={`/reservations/${reservation.reservation_id}/edit`}>
+              <button type="submit" className="btn btn-outline-dark">
+                Edit
+              </button>
+            </Link>
+            <button
+              onClick={handleCancel}
+              type="submit"
+              className="btn btn-outline-dark"
+              data-reservation-id-cancel={reservation.reservation_id}
+            >
+              Cancel
             </button>
-          </Link>
-          <Link to={`/reservations/${reservation.reservation_id}/edit`}>
-            <button type="submit" className="btn btn-outline-dark">
-              Edit
-            </button>
-          </Link>
-          <button
-            onClick={handleCancel}
-            type="submit"
-            className="btn btn-outline-dark"
-            data-reservation-id-cancel={reservation.reservation_id}
-          >
-            Cancel
-          </button>
-        </div>
-      ) : (
-        <div></div>
-      )}
+          </div>
+        ) : null}
+      </td>
     </tr>
   );
+  
 }
 
 export default ReservationView;

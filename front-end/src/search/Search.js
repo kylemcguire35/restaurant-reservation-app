@@ -12,12 +12,18 @@ function Search() {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
 
-  function loadDashboard(mobile_number) {
+  async function loadDashboard(mobile_number) {
     const abortController = new AbortController();
     setReservationsError(null);
-    listReservations({ mobile_number }, abortController.signal)
-      .then(setReservations)
-      .catch(setReservationsError);
+    try {
+      const response = await listReservations(
+        { mobile_number },
+        abortController.signal
+      );
+      setReservations(response);
+    } catch (error) {
+      setReservationsError(error);
+    }
     return () => abortController.abort();
   }
 

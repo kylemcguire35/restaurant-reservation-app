@@ -25,17 +25,19 @@ function TableView({ table }) {
       <td data-table-id-status={table.table_id}>
         {table.reservation_id === null ? "Free" : "Occupied"}
       </td>
-      {table.reservation_id !== null ? (
-        <button
-          className="btn btn-warning"
-          data-table-id-finish={table.table_id}
-          onClick={handleFinish}
-        >
-          Finish
-        </button>
-      ) : (
-        <div></div>
-      )}
+      <td>
+        {table.reservation_id !== null ? (
+          <button
+            className="btn btn-warning"
+            data-table-id-finish={table.table_id}
+            onClick={handleFinish}
+          >
+            Finish
+          </button>
+        ) : (
+          <div></div>
+        )}
+      </td>
     </tr>
   );
 }

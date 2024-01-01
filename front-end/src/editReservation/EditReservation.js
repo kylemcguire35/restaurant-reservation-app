@@ -21,11 +21,11 @@ function EditReservation() {
   async function loadReservation() {
     const abortController = new AbortController();
     setReservationError(null);
-    const response = await readReservation(
-      reservationId,
-      abortController.signal
-    );
     try {
+      const response = await readReservation(
+        reservationId,
+        abortController.signal
+      );
       setFormData({
         reservation_id: reservationId,
         first_name: response.first_name,
