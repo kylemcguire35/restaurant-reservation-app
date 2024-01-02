@@ -62,7 +62,7 @@ function NewReservation() {
         message:
           `Sorry, that time has already passed. Please enter another time.
           today: ${formData.reservation_time}
-          date entered: ${moment().format('HHmm')}`,
+          time entered: ${moment().format('HHmm')}`,
       });
       return;
     }
