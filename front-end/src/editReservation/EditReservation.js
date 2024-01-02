@@ -129,11 +129,9 @@ function EditReservation() {
   **********/
   function isPastTime(timeString, dateString) {
     if (isToday(dateString)) {
-      const time = parseInt(timeString.split(":").join(""));
-      const currentTime = new Date();
-      const hours = currentTime.getHours().toString().padStart(2, "0");
-      const minutes = currentTime.getMinutes().toString().padStart(2, "0");
-      const formattedTime = parseInt(`${hours}${minutes}`);
+      const time = parseInt(timeString.split(':').join(''));
+      const currentTime = moment();
+      const formattedTime = parseInt(currentTime.format('HHmm'));
       return time < formattedTime;
     }
     return false;

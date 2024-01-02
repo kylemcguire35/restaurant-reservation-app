@@ -61,8 +61,8 @@ function NewReservation() {
       setError({
         message:
           `Sorry, that time has already passed. Please enter another time.
-          today: ${moment()}
-          date entered: ${moment(formData.reservation_date, "YYYY-MM-DD")}`,
+          today: ${formData.reservation_time}
+          date entered: ${moment().format('HHmm')}`,
       });
       return;
     }
@@ -112,11 +112,9 @@ function NewReservation() {
   **********/
   function isPastTime(timeString, dateString) {
     if (isToday(dateString)) {
-      const time = parseInt(timeString.split(":").join(""));
-      const currentTime = new Date();
-      const hours = currentTime.getHours().toString().padStart(2, "0");
-      const minutes = currentTime.getMinutes().toString().padStart(2, "0");
-      const formattedTime = parseInt(`${hours}${minutes}`);
+      const time = parseInt(timeString.split(':').join(''));
+      const currentTime = moment();
+      const formattedTime = parseInt(currentTime.format('HHmm'));
       return time < formattedTime;
     }
     return false;

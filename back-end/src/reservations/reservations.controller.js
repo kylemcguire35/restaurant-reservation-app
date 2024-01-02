@@ -72,7 +72,9 @@ function isValidReservationDate(req, res, next) {
   if (isPastDate(reservation_date)) {
     return next({
       status: 400,
-      message: "Invalid reservation_date. Please enter today or a future date.",
+      message: `Invalid reservation_date. Please enter today or a future date.
+      today: ${moment()}
+      date entered: ${moment(formData.reservation_date, "YYYY-MM-DD")}`,
     });
   }
   next();
@@ -109,11 +111,9 @@ function isValidTime(timeString) {
 
 function isPastTime(timeString, dateString) {
   if (isToday(dateString)) {
-    const time = parseInt(timeString.split(":").join(""));
-    const currentTime = new Date();
-    const hours = currentTime.getHours().toString().padStart(2, "0");
-    const minutes = currentTime.getMinutes().toString().padStart(2, "0");
-    const formattedTime = parseInt(`${hours}${minutes}`);
+    const time = parseInt(timeString.split(':').join(''));
+    const currentTime = moment();
+    const formattedTime = parseInt(currentTime.format('HHmm'));
     return time < formattedTime;
   }
   return false;
@@ -140,7 +140,9 @@ function isValidReservationTime(req, res, next) {
   if (isPastTime(reservation_time, reservation_date)) {
     return next({
       status: 400,
-      message: "Invalid reservation_time. Please use a current or future time.",
+      message: `Invalid reservation_time. Please use a current or future time.
+      today: ${formData.reservation_time}
+      date entered: ${moment().format('HHmm')}`,
     });
   }
   if (isClosed(reservation_time)) {
