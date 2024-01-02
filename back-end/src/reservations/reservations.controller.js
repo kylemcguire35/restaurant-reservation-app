@@ -46,16 +46,8 @@ function isPastDate(dateString) {
   return dateObj.isBefore(today, "day");
 }
 
-const date = (moment("2024-01-01", "YYYY-MM-DD"))
-const today = (moment().tz(timeZone))
-
-console.log(date)
-console.log(today)
-console.log(date.isBefore(today, "day"))
-
-
 function isToday(dateString) {
-  const dateObj = moment(dateString + "T00:00:00", "YYYY-MM-DD");
+  const dateObj = moment(dateString, "YYYY-MM-DD");
   const today = moment().tz(timeZone).startOf("day");
   return dateObj.isSame(today, "day");
 }
@@ -82,9 +74,7 @@ function isValidReservationDate(req, res, next) {
   if (isPastDate(reservation_date)) {
     return next({
       status: 400,
-      message: `Invalid reservation_date. Please enter today or a future date.
-      today: ${moment().tz(timeZone)}
-      date entered: ${moment(reservation_date, "YYYY-MM-DD").tz('UTC')}`,
+      message: "Invalid reservation_date. Please enter today or a future date.",
     });
   }
   next();
@@ -150,9 +140,7 @@ function isValidReservationTime(req, res, next) {
   if (isPastTime(reservation_time, reservation_date)) {
     return next({
       status: 400,
-      message: `Invalid reservation_time. Please use a current or future time.
-      today: ${moment().tz(timeZone)}
-      time entered: ${reservation_time}`,
+      message: "Invalid reservation_time. Please use a current or future time.",
     });
   }
   if (isClosed(reservation_time)) {
