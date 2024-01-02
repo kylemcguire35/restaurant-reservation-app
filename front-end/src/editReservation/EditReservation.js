@@ -63,6 +63,12 @@ function EditReservation({ timeZone }) {
       });
       return;
     }
+    if (!isValidMobileNumber(formData.mobile_number)) {
+      setError({
+        message: "Mobile number must be 10 digits long.",
+      });
+      return;
+    }
     if (isTuesday(formData.reservation_date)) {
       setError({
         message: "Sorry, we are closed on Tuesday. Please enter another date.",
@@ -94,6 +100,14 @@ function EditReservation({ timeZone }) {
     setFormData({});
     setError(null);
   };
+
+  /**********
+  Mobile Number Middleware
+  **********/
+  function isValidMobileNumber(number) {
+    const numberString = number.split("-").join("");
+    return numberString.length === 10;
+  }
 
   /**********
   Properties Middleware
