@@ -1,6 +1,6 @@
 const service = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
-const moment = require("moment");
+const moment = require("moment-timezone");
 
 /********** 
 Properties Middleware
@@ -33,20 +33,22 @@ async function reservationExists(req, res, next) {
 /********** 
 Date Middleware
 **********/
+const timeZone = "America/Los_Angeles";
+
 function isTuesday(dateString) {
-  const dateObj = moment(dateString, "YYYY-MM-DD");
+  const dateObj = moment.tz(dateString, "YYYY-MM-DD", timeZone);
   return dateObj.day() === 2;
 }
 
 function isPastDate(dateString) {
-  const dateObj = moment(dateString, "YYYY-MM-DD");
-  const today = moment();
+  const dateObj = moment.tz(dateString, "YYYY-MM-DD", timeZone);
+  const today = moment().tz(timeZone);
   return dateObj.isBefore(today, "day");
 }
 
 function isToday(dateString) {
-  const dateObj = moment(dateString + "T00:00:00", "YYYY-MM-DD");
-  const today = moment().startOf("day");
+  const dateObj = moment.tz(dateString + "T00:00:00", "YYYY-MM-DD", timeZone);
+  const today = moment().tz(timeZone).startOf("day");
   return dateObj.isSame(today, "day");
 }
 
@@ -111,9 +113,9 @@ function isValidTime(timeString) {
 
 function isPastTime(timeString, dateString) {
   if (isToday(dateString)) {
-    const time = parseInt(timeString.split(':').join(''));
-    const currentTime = moment();
-    const formattedTime = parseInt(currentTime.format('HHmm'));
+    const time = parseInt(timeString.split(":").join(""));
+    const currentTime = moment().tz(timeZone);
+    const formattedTime = parseInt(currentTime.format("HHmm"));
     return time < formattedTime;
   }
   return false;
@@ -141,7 +143,7 @@ function isValidReservationTime(req, res, next) {
     return next({
       status: 400,
       message: `Invalid reservation_time. Please use a current or future time.
-      today: ${moment().format('HHmm')}
+      today: ${moment().format("HHmm")}
       time entered: ${reservation_time}`,
     });
   }
