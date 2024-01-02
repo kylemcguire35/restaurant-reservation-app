@@ -39,7 +39,7 @@ function isTuesday(dateString) {
 }
 
 function isPastDate(dateString) {
-  const dateObj = moment(dateString, "YYYY-MM-DD").tz('UTC');
+  const dateObj = moment(dateString, "YYYY-MM-DD").tz("UTC");
   const today = moment().startOf("day");
   return dateObj.isBefore(today, "day");
 }

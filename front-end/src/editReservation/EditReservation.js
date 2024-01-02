@@ -119,7 +119,7 @@ function EditReservation() {
   }
 
   function isToday(dateString) {
-    const dateObj = moment(dateString + "T00:00:00", "YYYY-MM-DD");
+    const dateObj = moment(dateString, "YYYY-MM-DD");
     const today = moment().startOf("day");
     return dateObj.isSame(today, "day");
   }
@@ -129,9 +129,9 @@ function EditReservation() {
   **********/
   function isPastTime(timeString, dateString) {
     if (isToday(dateString)) {
-      const time = parseInt(timeString.split(':').join(''));
+      const time = parseInt(timeString.split(":").join(""));
       const currentTime = moment();
-      const formattedTime = parseInt(currentTime.format('HHmm'));
+      const formattedTime = parseInt(currentTime.format("HHmm"));
       return time < formattedTime;
     }
     return false;
