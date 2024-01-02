@@ -80,7 +80,7 @@ function Search() {
       <button className="btn btn-warning" type="submit" onClick={handleFind}>
         Find
       </button>
-      <div className="container py-3">
+      <div className="container py-3 text-center">
         {reservations.length > 0 ? (
           <ReservationsList reservations={reservations} />
         ) : (
