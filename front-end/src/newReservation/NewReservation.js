@@ -5,7 +5,7 @@ import ErrorAlert from "../layout/ErrorAlert";
 import { createReservation } from "../utils/api";
 import moment from "moment";
 
-function NewReservation() {
+function NewReservation({ timeZone }) {
   const history = useHistory();
 
   const initialFormState = {
@@ -24,7 +24,7 @@ function NewReservation() {
   Button Handlers
   **********/
   async function createReservationFromAPI() {
-    await createReservation(formData);
+    await createReservation(formData, timeZone);
     history.push(`/dashboard?date=${formData.reservation_date}`);
     window.location.reload();
   }

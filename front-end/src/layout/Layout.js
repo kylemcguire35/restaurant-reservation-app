@@ -11,7 +11,7 @@ import "./Layout.css";
  *
  * @returns {JSX.Element}
  */
-function Layout() {
+function Layout({ timeZone }) {
   return (
     <div className="container-fluid">
       <div className="row h-100">
@@ -19,7 +19,7 @@ function Layout() {
           <Menu />
         </div>
         <div className="col">
-          <Routes />
+          <Routes timeZone={timeZone} />
         </div>
       </div>
     </div>

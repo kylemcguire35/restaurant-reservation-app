@@ -18,7 +18,7 @@ import useQuery from "../utils/useQuery";
  *
  * @returns {JSX.Element}
  */
-function Routes() {
+function Routes({ timeZone }) {
   const query = useQuery();
   const date = query.get("date");
   return (
@@ -34,7 +34,7 @@ function Routes() {
           <Dashboard date={date || today()} />
         </Route>
         <Route path="/reservations/new">
-          <NewReservation />
+          <NewReservation timeZone={timeZone} />
         </Route>
         <Route path="/reservations/:reservationId/edit">
           <EditReservation />

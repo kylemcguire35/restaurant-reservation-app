@@ -33,30 +33,18 @@ async function reservationExists(req, res, next) {
 /********** 
 Date Middleware
 **********/
-function getUserTimeZone() {
-  try {
-    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    return userTimeZone || "UTC"; // Default to UTC if unable to determine the timezone
-  } catch (error) {
-    console.error("Error getting user timezone:", error);
-    return "UTC"; // Default to UTC in case of an error
-  }
-}
-
-const timeZone = getUserTimeZone();
-
 function isTuesday(dateString) {
   const dateObj = moment(dateString, "YYYY-MM-DD");
   return dateObj.day() === 2;
 }
 
-function isPastDate(dateString) {
+function isPastDate(dateString, timeZone) {
   const dateObj = moment(dateString, "YYYY-MM-DD");
   const today = moment().tz(timeZone).startOf("day");
   return dateObj.isBefore(today, "day");
 }
 
-function isToday(dateString) {
+function isToday(dateString, timeZone) {
   const dateObj = moment(dateString, "YYYY-MM-DD");
   const today = moment().tz(timeZone).startOf("day");
   return dateObj.isSame(today, "day");
@@ -68,7 +56,7 @@ function isValidDate(dateString) {
 }
 
 function isValidReservationDate(req, res, next) {
-  const { reservation_date } = req.body.data;
+  const { reservation_date, timeZone } = req.body.data;
   if (!isValidDate(reservation_date)) {
     return next({
       status: 400,
@@ -81,7 +69,7 @@ function isValidReservationDate(req, res, next) {
       message: "Invalid reservation_date. The restaurant is closed on Tuesday.",
     });
   }
-  if (isPastDate(reservation_date)) {
+  if (isPastDate(reservation_date, timeZone)) {
     return next({
       status: 400,
       message: `Invalid reservation_date. Please enter today or a future date.

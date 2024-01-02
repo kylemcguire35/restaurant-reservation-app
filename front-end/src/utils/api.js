@@ -76,12 +76,12 @@ export async function readReservation(reservationId, signal) {
   return await fetchJson(url, { signal }, {});
 }
 
-export async function createReservation(reservation, signal) {
+export async function createReservation(reservation, timeZone, signal) {
   const url = `${API_BASE_URL}/reservations`;
   const options = {
     method: "POST",
     headers,
-    body: JSON.stringify({ data: reservation }),
+    body: JSON.stringify({ data: {...reservation, timeZone} }),
     signal,
   };
   return await fetchJson(url, options);
