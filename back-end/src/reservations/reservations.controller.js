@@ -36,18 +36,18 @@ Date Middleware
 const timeZone = "America/Los_Angeles";
 
 function isTuesday(dateString) {
-  const dateObj = moment(dateString, "YYYY-MM-DD").tz(timeZone);
+  const dateObj = moment(dateString, "YYYY-MM-DD");
   return dateObj.day() === 2;
 }
 
 function isPastDate(dateString) {
-  const dateObj = moment(dateString, "YYYY-MM-DD").tz(timeZone);
+  const dateObj = moment(dateString, "YYYY-MM-DD");
   const today = moment().tz(timeZone);
   return dateObj.isBefore(today, "day");
 }
 
 function isToday(dateString) {
-  const dateObj = moment(dateString + "T00:00:00", "YYYY-MM-DD").tz(timeZone);
+  const dateObj = moment(dateString + "T00:00:00", "YYYY-MM-DD");
   const today = moment().tz(timeZone).startOf("day");
   return dateObj.isSame(today, "day");
 }
