@@ -84,7 +84,10 @@ function isValidReservationDate(req, res, next) {
   if (isPastDate(reservation_date)) {
     return next({
       status: 400,
-      message: "Invalid reservation_date. Please enter today or a future date.",
+      message: `Invalid reservation_date. Please enter today or a future date.
+      Timezone: ${timezone}
+      Today: ${moment().tz(timeZone).startOf("day")}
+      Date Entered: ${moment(dateString, "YYYY-MM-DD")}`,
     });
   }
   next();
