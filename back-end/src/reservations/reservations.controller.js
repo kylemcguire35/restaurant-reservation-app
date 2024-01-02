@@ -110,8 +110,8 @@ function isValidTime(timeString) {
   return true;
 }
 
-function isPastTime(timeString, dateString) {
-  if (isToday(dateString)) {
+function isPastTime(timeString, dateString, timeZone) {
+  if (isToday(dateString, timeZone)) {
     const time = parseInt(timeString.split(":").join(""));
     const currentTime = moment().tz(timeZone);
     const formattedTime = parseInt(currentTime.format("HHmm"));
@@ -130,7 +130,7 @@ function isClosed(timeString) {
 }
 
 function isValidReservationTime(req, res, next) {
-  const { reservation_time, reservation_date } = req.body.data;
+  const { reservation_time, reservation_date, timeZone } = req.body.data;
   if (!isValidTime(reservation_time)) {
     return next({
       status: 400,
@@ -138,7 +138,7 @@ function isValidReservationTime(req, res, next) {
         "Invalid reservation_time. Please use a valid time in the format HH:mm:ss.",
     });
   }
-  if (isPastTime(reservation_time, reservation_date)) {
+  if (isPastTime(reservation_time, reservation_date, timeZone)) {
     return next({
       status: 400,
       message: "Invalid reservation_time. Please use a current or future time.",
@@ -237,7 +237,8 @@ function read(req, res, next) {
 }
 
 async function create(req, res) {
-  const newReservation = await service.create(req.body.data);
+  const {timeZone, ...reservation} = req.body.data;
+  const newReservation = await service.create(reservation);
   res.status(201).json({
     data: newReservation[0],
   });
