@@ -33,22 +33,20 @@ async function reservationExists(req, res, next) {
 /********** 
 Date Middleware
 **********/
-const timeZone = "America/Los_Angeles";
-
 function isTuesday(dateString) {
   const dateObj = moment(dateString, "YYYY-MM-DD");
   return dateObj.day() === 2;
 }
 
 function isPastDate(dateString) {
-  const dateObj = moment(dateString, "YYYY-MM-DD");
-  const today = moment().tz(timeZone).startOf("day");
+  const dateObj = moment(dateString, "YYYY-MM-DD").tz('UTC');
+  const today = moment().startOf("day");
   return dateObj.isBefore(today, "day");
 }
 
 function isToday(dateString) {
-  const dateObj = moment(dateString, "YYYY-MM-DD");
-  const today = moment().tz(timeZone).startOf("day");
+  const dateObj = moment(dateString, "YYYY-MM-DD").tz("UTC");
+  const today = moment().startOf("day");
   return dateObj.isSame(today, "day");
 }
 
@@ -112,7 +110,7 @@ function isValidTime(timeString) {
 function isPastTime(timeString, dateString) {
   if (isToday(dateString)) {
     const time = parseInt(timeString.split(":").join(""));
-    const currentTime = moment().tz(timeZone);
+    const currentTime = moment();
     const formattedTime = parseInt(currentTime.format("HHmm"));
     return time < formattedTime;
   }
