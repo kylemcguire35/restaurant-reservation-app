@@ -51,14 +51,18 @@ function NewReservation() {
     if (isPastDate(formData.reservation_date)) {
       setError({
         message:
-          "Sorry, that date has already passed. Please enter another date.",
+          `Sorry, that date has already passed. Please enter another date.
+          today: ${moment()}
+          date entered: ${moment(formData.reservation_date, "YYYY-MM-DD")}`,
       });
       return;
     }
     if (isPastTime(formData.reservation_time, formData.reservation_date)) {
       setError({
         message:
-          "Sorry, that time has already passed. Please enter another time.",
+          `Sorry, that time has already passed. Please enter another time.
+          today: ${moment()}
+          date entered: ${moment(formData.reservation_date, "YYYY-MM-DD")}`,
       });
       return;
     }
