@@ -33,7 +33,17 @@ async function reservationExists(req, res, next) {
 /********** 
 Date Middleware
 **********/
-const timeZone = 'America/Los_Angeles';
+function getUserTimeZone() {
+  try {
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    return userTimeZone || "UTC"; // Default to UTC if unable to determine the timezone
+  } catch (error) {
+    console.error("Error getting user timezone:", error);
+    return "UTC"; // Default to UTC in case of an error
+  }
+}
+
+const timeZone = getUserTimeZone();
 
 function isTuesday(dateString) {
   const dateObj = moment(dateString, "YYYY-MM-DD");
