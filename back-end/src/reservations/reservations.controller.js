@@ -41,10 +41,12 @@ function isTuesday(dateString) {
 }
 
 function isPastDate(dateString) {
-  const dateObj = moment(dateString, "YYYY-MM-DD");
+  const dateObj = moment(dateString, "YYYY-MM-DD").tz('UTC');
   const today = moment().tz(timeZone);
   return dateObj.isBefore(today, "day");
 }
+
+console.log(moment("2024-01-01", "YYYY-MM-DD").tz("UTC"))
 
 function isToday(dateString) {
   const dateObj = moment(dateString + "T00:00:00", "YYYY-MM-DD");
