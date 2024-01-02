@@ -157,7 +157,7 @@ function SeatReservation() {
           >
             <option value="">Table Name - Capacity</option>
             {tables.map((table) => (
-              <option key={table.table_id} value={table.table_id}>
+              <option key={table.table_id} value={table.table_id} className={table.reservation_id === null ? "text-dark" : "text-danger"}>
                 {table.table_name} - {table.capacity}
               </option>
             ))}
