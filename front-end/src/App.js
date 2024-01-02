@@ -20,11 +20,10 @@ function App() {
   }
 
   useEffect(() => {
-    const fetchUserTimeZone = async () => {
+    const fetchUserTimeZone = () => {
       try {
-        const timeZone = await getUserTimeZone();
+        const timeZone = getUserTimeZone();
         setUserTimeZone(timeZone);
-        console.log(timeZone)
       } catch (error) {
         console.error("Error fetching user timezone:", error);
       }

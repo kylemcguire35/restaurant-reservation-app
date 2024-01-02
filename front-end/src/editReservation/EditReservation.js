@@ -5,7 +5,7 @@ import ErrorAlert from "../layout/ErrorAlert";
 import { readReservation, updateReservation } from "../utils/api";
 import moment from "moment";
 
-function EditReservation() {
+function EditReservation({ timeZone }) {
   const history = useHistory();
   const { reservationId } = useParams();
 
@@ -45,7 +45,7 @@ function EditReservation() {
   Button Handlers
   **********/
   async function updateReservationFromAPI() {
-    await updateReservation(formData);
+    await updateReservation(formData, timeZone);
     history.push(`/dashboard?date=${formData.reservation_date}`);
     window.location.reload();
   }

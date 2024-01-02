@@ -56,7 +56,7 @@ function isValidDate(dateString) {
 }
 
 function isValidReservationDate(req, res, next) {
-  const { reservation_date, timeZone } = req.body.data;
+  const { reservation_date, timeZone = "UTC" } = req.body.data;
   if (!isValidDate(reservation_date)) {
     return next({
       status: 400,
@@ -130,7 +130,11 @@ function isClosed(timeString) {
 }
 
 function isValidReservationTime(req, res, next) {
-  const { reservation_time, reservation_date, timeZone } = req.body.data;
+  const {
+    reservation_time,
+    reservation_date,
+    timeZone = "UTC",
+  } = req.body.data;
   if (!isValidTime(reservation_time)) {
     return next({
       status: 400,
@@ -237,7 +241,7 @@ function read(req, res, next) {
 }
 
 async function create(req, res) {
-  const {timeZone, ...reservation} = req.body.data;
+  const { timeZone, ...reservation } = req.body.data;
   const newReservation = await service.create(reservation);
   res.status(201).json({
     data: newReservation[0],
@@ -245,8 +249,9 @@ async function create(req, res) {
 }
 
 async function update(req, res) {
+  const { timeZone, ...reservation } = req.body.data;
   const updatedReservation = {
-    ...req.body.data,
+    ...reservation,
     reservation_id: res.locals.reservation.reservation_id,
   };
   const data = await service.update(updatedReservation);

@@ -81,18 +81,18 @@ export async function createReservation(reservation, timeZone, signal) {
   const options = {
     method: "POST",
     headers,
-    body: JSON.stringify({ data: {...reservation, timeZone} }),
+    body: JSON.stringify({ data: { ...reservation, timeZone } }),
     signal,
   };
   return await fetchJson(url, options);
 }
 
-export async function updateReservation(updatedReservation, signal) {
+export async function updateReservation(updatedReservation, timeZone, signal) {
   const url = `${API_BASE_URL}/reservations/${updatedReservation.reservation_id}`;
   const options = {
     method: "PUT",
     headers,
-    body: JSON.stringify({ data: updatedReservation }),
+    body: JSON.stringify({ data: { ...updatedReservation, timeZone } }),
     signal,
   };
   return await fetchJson(url, options, updatedReservation);

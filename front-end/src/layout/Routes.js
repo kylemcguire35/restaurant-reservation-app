@@ -37,7 +37,7 @@ function Routes({ timeZone }) {
           <NewReservation timeZone={timeZone} />
         </Route>
         <Route path="/reservations/:reservationId/edit">
-          <EditReservation />
+          <EditReservation timeZone={timeZone} />
         </Route>
         <Route path="/reservations/:reservationId/seat">
           <SeatReservation />
