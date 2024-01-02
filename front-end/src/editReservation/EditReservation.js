@@ -3,7 +3,7 @@ import { useHistory, useParams } from "react-router-dom";
 import FormComponent from "../formComponent/FormComponent";
 import ErrorAlert from "../layout/ErrorAlert";
 import { readReservation, updateReservation } from "../utils/api";
-import moment from "moment-timezone";
+import moment from "moment";
 
 function EditReservation() {
   const history = useHistory();
@@ -108,19 +108,19 @@ function EditReservation() {
   Date Middleware
   **********/
   function isTuesday(dateString) {
-    const dateObj = moment.tz(dateString, "YYYY-MM-DD", "UTC");
+    const dateObj = moment(dateString, "YYYY-MM-DD");
     return dateObj.day() === 2;
   }
 
   function isPastDate(dateString) {
-    const dateObj = moment.tz(dateString, "YYYY-MM-DD", "UTC");
-    const today = moment().tz("UTC");
+    const dateObj = moment(dateString, "YYYY-MM-DD");
+    const today = moment();
     return dateObj.isBefore(today, "day");
   }
 
   function isToday(dateString) {
-    const dateObj = moment.tz(dateString + "T00:00:00", "UTC");
-    const today = moment().tz("UTC");
+    const dateObj = moment(dateString + "T00:00:00", "YYYY-MM-DD");
+    const today = moment().startOf("day");
     return dateObj.isSame(today, "day");
   }
 
