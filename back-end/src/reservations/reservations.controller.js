@@ -78,7 +78,7 @@ function isValidReservationDate(req, res, next) {
       status: 400,
       message: `Invalid reservation_date. Please enter today or a future date.
       today: ${moment().tz(timeZone)}
-      date entered: ${moment(reservation_date, "YYYY-MM-DD").tz(timeZone)}`,
+      date entered: ${moment(reservation_date, "YYYY-MM-DD").tz('UTC')}`,
     });
   }
   next();
