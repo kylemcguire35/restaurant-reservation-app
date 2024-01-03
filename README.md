@@ -7,15 +7,15 @@ This is my final capstone project as part of the Thinkful Bootcamp course. This 
 > At this point, the customers will not access the system online.
 
 #### Technologies:
-React, Node.js, Express, and PostgreSQL<br>
+Built with React, Node.js, Express, and PostgreSQL<br>
 Styled with Bootstrap
 
 #### Github:
-https://github.com/kylemcguire35/restaurant-reservation-app/
+Visit the [GitHub repository](https://github.com/kylemcguire35/restaurant-reservation-app/) for the latest code and updates.
 
 #### Deployed Versions:
-https://restaurant-reservation-frontend-nine.vercel.app/dashboard<br>
-https://restaurant-reservation-frontend-pei3.onrender.com/dashboard
+- [Vercel Deployment](https://restaurant-reservation-frontend-nine.vercel.app/dashboard)
+- [Render Deployment](https://restaurant-reservation-frontend-pei3.onrender.com/dashboard)
 
 ## Table of Contents
 - [App Summary](#app-summary-with-screenshots)
