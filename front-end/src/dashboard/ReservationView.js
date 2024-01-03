@@ -4,7 +4,7 @@ import { cancelReservation } from "../utils/api";
 
 function ReservationView({ reservation }) {
   async function cancelReservationFromAPI() {
-    cancelReservation({ ...reservation, status: "cancelled" });
+    await cancelReservation({ ...reservation, status: "cancelled" });
     window.location.reload();
   }
 
