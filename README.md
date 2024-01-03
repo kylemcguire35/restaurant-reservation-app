@@ -117,5 +117,5 @@ Production, Development, Test, and Preview.
 It is best to run knex commands for each environment separately. 
 
 #### Example:
-"npx knex migrate:latest --env development"<br>
-"npx knex seed:run --env development"
+`npx knex migrate:latest --env development`<br>
+`npx knex seed:run --env development`
