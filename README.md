@@ -11,11 +11,11 @@ Built with React, Node.js, Express, and PostgreSQL<br>
 Styled with Bootstrap
 
 #### Github:
-Visit the [GitHub repository](https://github.com/kylemcguire35/restaurant-reservation-app/) for the latest code and updates.
+Visit the [GitHub Repository](https://github.com/kylemcguire35/restaurant-reservation-app/){:target="_blank"} for the latest code and updates.
 
 #### Deployed Versions:
-- [Vercel Deployment](https://restaurant-reservation-frontend-nine.vercel.app/dashboard)
-- [Render Deployment](https://restaurant-reservation-frontend-pei3.onrender.com/dashboard)
+- [Vercel Deployment](https://restaurant-reservation-frontend-nine.vercel.app/dashboard){:target="_blank"}
+- [Render Deployment](https://restaurant-reservation-frontend-pei3.onrender.com/dashboard){:target="_blank"}
 
 ## Table of Contents
 - [App Summary](#app-summary-with-screenshots)
